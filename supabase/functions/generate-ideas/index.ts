@@ -152,28 +152,7 @@ serve(async (req) => {
 
         const newsItems = [...arabNews, ...globalNews];
 
-        const perplexityData = await perplexityRes.json();
-        const content = perplexityData.choices?.[0]?.message?.content || "";
-        console.log(`Perplexity raw for ${category}:`, content.substring(0, 200));
-        const jsonMatch = content.match(/\[[\s\S]*\]/);
-        if (!jsonMatch) { console.error(`No JSON array found for ${category}`); continue; }
-
-        // Clean common JSON issues: trailing commas, control chars
-        const cleanedJson = jsonMatch[0]
-          .replace(/,\s*\]/g, ']')
-          .replace(/,\s*\}/g, '}')
-          .replace(/[\x00-\x1f]/g, ' ');
-        const parsed = JSON.parse(cleanedJson);
-        const newsItems = parsed
-          .filter((item: { headline: string }) => !item.headline.toLowerCase().includes('youtube'))
-          .map((item: { headline: string }) => {
-            const headline = item.headline.replace(/\[\d+\]/g, '').trim();
-            return {
-              headline,
-              url: `https://www.google.com/search?q=${encodeURIComponent(headline)}+news`,
-            };
-          })
-          .slice(0, needed);
+        if (newsItems.length === 0) { console.error(`No news found for ${category}`); continue; }
 
         // Step 2: Generate ideas from news
         const newsPrompt = newsItems
