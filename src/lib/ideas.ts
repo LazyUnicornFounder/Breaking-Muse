@@ -63,6 +63,8 @@ async function _fetchIdeasForDateInternal(targetDate: string): Promise<{
   const featured: IdeaEntry[] = [];
   const all: Record<string, IdeaEntry[]> = {};
 
+  const featuredTags = new Set<string>();
+
   for (const row of data || []) {
     const entry: IdeaEntry = {
       title: row.title,
@@ -73,8 +75,10 @@ async function _fetchIdeasForDateInternal(targetDate: string): Promise<{
       isFeatured: row.is_featured,
     };
 
-    if (row.is_featured) {
+    // Only pick one featured idea per category
+    if (row.is_featured && !featuredTags.has(row.tag)) {
       featured.push(entry);
+      featuredTags.add(row.tag);
     }
 
     if (!all[row.tag]) all[row.tag] = [];
