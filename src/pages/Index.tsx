@@ -30,7 +30,7 @@ const Index = () => {
 
       <main className="max-w-7xl mx-auto px-6 py-6">
         {/* Hero */}
-        <div className="flex items-center justify-center gap-8 h-[25vh] mb-6">
+        <div className="flex items-center justify-center gap-3 h-[25vh] mb-6">
           <p className="font-display text-2xl md:text-3xl text-muted-foreground italic whitespace-nowrap">
             The news that gives you
           </p>
