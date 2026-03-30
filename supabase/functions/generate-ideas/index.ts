@@ -144,11 +144,11 @@ serve(async (req) => {
             messages: [
               {
                 role: "system",
-                content: "You are a startup idea generator. Given news stories, create unique, actionable startup business ideas. Return ONLY a valid JSON array.",
+                content: "You are a startup idea namer and describer. Given news stories, invent a unique startup idea for each one. Return ONLY a valid JSON array.",
               },
               {
                 role: "user",
-                content: `Given these ${category} news stories from today:\n${newsPrompt}\n\nGenerate one startup idea for EACH story. Return a JSON array:\n[{"title": "Startup Name", "description": "2-3 sentence business concept", "source_event": "the news headline", "source_url": "the article URL", "is_featured": false}]\n\nKeep descriptions punchy and entrepreneurial.`,
+                content: `Given these ${category} news stories from today:\n${newsPrompt}\n\nFor EACH story, generate one startup idea. Rules:\n- \"title\": A short, catchy startup name, 2-4 words max (e.g. \"PermitPilot\", \"TrustLoop\", \"NestPulse\")\n- \"description\": 1-2 plain sentences. Explain it like you would to a friend — no jargon, no buzzwords.\n- \"source_event\": the news headline\n- \"source_url\": the article URL\n- \"is_featured\": false\n\nReturn a JSON array: [{"title": "...", "description": "...", "source_event": "...", "source_url": "...", "is_featured": false}]`,
               },
             ],
           }),
