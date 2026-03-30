@@ -1,9 +1,11 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import IdeaCard from "@/components/IdeaCard";
 import { fetchIdeasForDate } from "@/lib/ideas";
-import { Search, Archive, RefreshCw } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { Search, Archive, RefreshCw, ShieldCheck } from "lucide-react";
+import { toast } from "sonner";
 import logo from "@/assets/logo.png";
 
 const categories = [
@@ -32,6 +34,8 @@ function formatDateLabel(dateStr: string, today: string): string {
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [isRegenerating, setIsRegenerating] = useState(false);
+  const queryClient = useQueryClient();
   const dayOffset = 0;
 
   const today = getAmmanDate();
@@ -67,10 +71,44 @@ const Index = () => {
     return ideas;
   }, [searchQuery, activeCategory, featured, allByCategory]);
 
+  const handleRegenerate = async () => {
+    const password = window.prompt("Enter admin password:");
+    if (!password) return;
+
+    setIsRegenerating(true);
+    toast.info("Regenerating ideas... this may take a few minutes.");
+
+    try {
+      const { data, error } = await supabase.functions.invoke("admin-regenerate", {
+        body: { password },
+      });
+
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
+      toast.success(`Regenerated ${data?.generation?.count || 0} ideas!`);
+      queryClient.invalidateQueries({ queryKey: ["ideas"] });
+    } catch (e: any) {
+      toast.error(e.message || "Failed to regenerate");
+    } finally {
+      setIsRegenerating(false);
+    }
+  };
+
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 py-2" />
+        <div className="max-w-7xl mx-auto px-6 py-2 flex justify-end">
+          <button
+            onClick={handleRegenerate}
+            disabled={isRegenerating}
+            className="flex items-center gap-1.5 text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors disabled:opacity-50"
+            title="Admin: Regenerate today's ideas"
+          >
+            <ShieldCheck className="w-3.5 h-3.5" />
+            {isRegenerating ? "Regenerating..." : "Regenerate"}
+          </button>
+        </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-6">
