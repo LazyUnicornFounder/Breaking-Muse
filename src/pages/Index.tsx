@@ -2,10 +2,12 @@ import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import IdeaCard from "@/components/IdeaCard";
+import LanguageToggle from "@/components/LanguageToggle";
 import { fetchIdeasForDate } from "@/lib/ideas";
 import { supabase } from "@/integrations/supabase/client";
-import { Search, Archive, RefreshCw, ShieldCheck } from "lucide-react";
+import { Search, Archive, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
+import { useLanguage } from "@/contexts/LanguageContext";
 import logo from "@/assets/logo.png";
 
 const categories = [
@@ -26,22 +28,15 @@ function addDays(dateStr: string, days: number): string {
   return d.toISOString().slice(0, 10);
 }
 
-function formatDateLabel(dateStr: string, today: string): string {
-  if (dateStr === today) return "Today";
-  if (dateStr === addDays(today, -1)) return "Yesterday";
-  const d = new Date(dateStr + "T12:00:00");
-  return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-}
-
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [isRegenerating, setIsRegenerating] = useState(false);
   const queryClient = useQueryClient();
-  const dayOffset = 0;
+  const { t, lang } = useLanguage();
 
   const today = getAmmanDate();
-  const selectedDate = addDays(today, dayOffset);
+  const selectedDate = today;
 
   const { data, isLoading } = useQuery({
     queryKey: ["ideas", selectedDate],
@@ -78,7 +73,7 @@ const Index = () => {
     if (!password) return;
 
     setIsRegenerating(true);
-    toast.info("Regenerating ideas... this may take a few minutes.");
+    toast.info(t("regenerating"));
 
     try {
       const { data, error } = await supabase.functions.invoke("admin-regenerate", {
@@ -99,6 +94,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
+      {/* Language toggle */}
+      <div className="absolute top-4 end-6 z-20">
+        <LanguageToggle />
+      </div>
 
       <main className="max-w-7xl mx-auto px-6 py-6">
         {/* Hero */}
@@ -106,7 +105,7 @@ const Index = () => {
           <div className="pointer-events-none flex items-center gap-3">
             <img src={logo} alt="Breaking Muse" className="h-48 md:h-60 w-auto drop-shadow-lg" />
             <p className="text-base md:text-lg text-muted-foreground tracking-tight font-semibold whitespace-nowrap" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-              Turn today's news into your next startup idea.
+              {t("tagline")}
             </p>
           </div>
           <a href="https://www.producthunt.com/products/breaking-muse?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-breaking-muse" target="_blank" rel="noopener noreferrer" className="shrink-0">
@@ -126,7 +125,7 @@ const Index = () => {
                   : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
               }`}
             >
-              {cat}
+              {cat === "All" ? t("all") : cat}
             </button>
           ))}
         </div>
@@ -134,13 +133,13 @@ const Index = () => {
         {/* Search */}
         <div className="flex justify-center mb-6">
           <div className="relative w-full max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
               type="text"
-              placeholder="Search ideas..."
+              placeholder={t("searchPlaceholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground"
+              className="w-full ps-9 pe-4 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground"
             />
           </div>
         </div>
@@ -182,7 +181,7 @@ const Index = () => {
         </div>
 
         {!isLoading && filteredIdeas.length === 0 && (
-          <p className="text-center text-muted-foreground py-12">No ideas found.</p>
+          <p className="text-center text-muted-foreground py-12">{t("noIdeas")}</p>
         )}
 
         {/* Archive link */}
@@ -192,7 +191,7 @@ const Index = () => {
             className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border border-border rounded-lg hover:bg-muted/50 transition-colors"
           >
             <Archive className="w-4 h-4" />
-            View previous days' ideas
+            {t("viewArchive")}
           </Link>
         </div>
       </main>
