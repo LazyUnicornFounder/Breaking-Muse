@@ -117,6 +117,7 @@ const Index = () => {
               title={idea.title}
               description={idea.description}
               sourceEvent={idea.sourceEvent}
+              sourceUrl={idea.sourceUrl}
               tag={idea.tag}
               delay={i * 60}
             />
