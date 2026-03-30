@@ -1,16 +1,52 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import CategorySidebar from "@/components/CategorySidebar";
+import IdeaCard from "@/components/IdeaCard";
+import { startupIdeas } from "@/data/ideas";
+import { Search } from "lucide-react";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="flex min-h-screen">
+      <CategorySidebar />
+
+      <main className="flex-1 px-8 py-6">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="font-display text-3xl text-foreground italic">
+              Today's startup ideas
+            </h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              Fresh opportunities extracted from breaking news — March 30, 2026
+            </p>
+          </div>
+
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search ideas..."
+              className="pl-9 pr-4 py-2 text-sm bg-card border border-border rounded-lg w-64 focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground"
+            />
+          </div>
+        </div>
+
+        {/* Cards grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          {startupIdeas.map((idea, i) => (
+            <IdeaCard
+              key={i}
+              title={idea.title}
+              description={idea.description}
+              sourceEvent={idea.sourceEvent}
+              tag={idea.tag}
+              tagColor={idea.tagColor}
+              delay={i * 60}
+            />
+          ))}
+        </div>
+      </main>
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
