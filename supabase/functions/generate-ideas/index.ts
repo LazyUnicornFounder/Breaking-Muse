@@ -10,7 +10,7 @@ const CATEGORIES = [
   "Art", "Cars", "Coffee", "Construction", "Creator", "Culture", "Design",
   "Education", "Fashion", "Film", "Food", "Gaming", "Health", "Living",
   "Money", "Music", "Outdoors", "Pets", "Politics", "Science", "Space",
-  "Sports", "Tech", "Travel", "Weather",
+  "Sports", "Tech", "Travel", "VC", "Weather",
 ];
 
 const IDEAS_PER_CATEGORY = 10;
