@@ -1,0 +1,12 @@
+UPDATE daily_ideas SET description = REGEXP_REPLACE(description, '^This tool ', 'A tool that ', 'i') WHERE description ILIKE 'This tool %';
+UPDATE daily_ideas SET description = REGEXP_REPLACE(description, '^This platform ', 'A platform that ', 'i') WHERE description ILIKE 'This platform %';
+UPDATE daily_ideas SET description = REGEXP_REPLACE(description, '^This service ', 'A service that ', 'i') WHERE description ILIKE 'This service %';
+UPDATE daily_ideas SET description = REGEXP_REPLACE(description, '^This software ', 'A software that ', 'i') WHERE description ILIKE 'This software %';
+UPDATE daily_ideas SET description = REGEXP_REPLACE(description, '^This phone app ', 'A phone app that ', 'i') WHERE description ILIKE 'This phone app %';
+UPDATE daily_ideas SET description = REGEXP_REPLACE(description, '^This mobile app ', 'A mobile app that ', 'i') WHERE description ILIKE 'This mobile app %';
+UPDATE daily_ideas SET description = REGEXP_REPLACE(description, '^This simple app ', 'A simple app that ', 'i') WHERE description ILIKE 'This simple app %';
+UPDATE daily_ideas SET description = REGEXP_REPLACE(description, '^This smart ', 'A smart ', 'i') WHERE description ILIKE 'This smart %';
+UPDATE daily_ideas SET description = REGEXP_REPLACE(description, '^This database ', 'A database that ', 'i') WHERE description ILIKE 'This database %';
+UPDATE daily_ideas SET description = REGEXP_REPLACE(description, '^This website ', 'A website that ', 'i') WHERE description ILIKE 'This website %';
+UPDATE daily_ideas SET description = REGEXP_REPLACE(description, '^This interactive website ', 'An interactive website that ', 'i') WHERE description ILIKE 'This interactive website %';
+UPDATE daily_ideas SET description = REGEXP_REPLACE(description, '^This startup ', 'A startup that ', 'i') WHERE description ILIKE 'This startup %';
