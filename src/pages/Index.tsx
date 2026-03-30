@@ -43,7 +43,7 @@ const Index = () => {
         </div>
 
         {/* Categories */}
-        <div className="flex gap-4 overflow-x-auto justify-center mb-4">
+        <div className="flex gap-4 overflow-x-auto justify-center mb-3 flex-wrap">
           {categories.map((cat) => (
             <button
               key={cat.name}
@@ -56,6 +56,18 @@ const Index = () => {
               {cat.name}
             </button>
           ))}
+        </div>
+
+        {/* Search */}
+        <div className="flex justify-center mb-6">
+          <div className="relative w-full max-w-md">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search ideas..."
+              className="w-full pl-9 pr-4 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground"
+            />
+          </div>
         </div>
 
         {/* Cards grid */}
