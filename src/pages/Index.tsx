@@ -11,8 +11,8 @@ import logo from "@/assets/logo.png";
 const categories = [
   "All", "Art", "Cars", "Coffee", "Construction", "Creator", "Culture",
   "Design", "Education", "Fashion", "Film", "Food", "Gaming", "Health",
-  "Living", "Money", "Music", "Pets", "Politics", "Science", "Space",
-  "Sports", "Tech", "Travel", "Weather",
+  "Living", "Money", "Music", "Outdoors", "Pets", "Politics", "Science",
+  "Space", "Sports", "Tech", "Travel", "Weather",
 ];
 
 function getAmmanDate(): string {
