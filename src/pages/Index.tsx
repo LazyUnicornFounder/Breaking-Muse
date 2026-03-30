@@ -2,33 +2,38 @@ import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import IdeaCard from "@/components/IdeaCard";
 import { startupIdeas } from "@/data/ideas";
+import { previousIdeas } from "@/data/previousIdeas";
 import { Search, Archive } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const categories = [
-  { name: "All", active: true },
-  { name: "Health" },
-  { name: "Weather" },
-  
-  { name: "Sports" },
-  { name: "Food" },
-  { name: "Film" },
-  { name: "Music" },
-  { name: "Culture" },
-  { name: "Fashion" },
-  { name: "Space" },
-  { name: "Pets" },
-  { name: "Travel" },
-  { name: "Cars" },
-  { name: "Politics" },
-  { name: "Science" },
-  { name: "Money" },
+  "All", "Health", "Weather", "Sports", "Food", "Film", "Music",
+  "Culture", "Fashion", "Space", "Pets", "Travel", "Cars", "Politics", "Science", "Money",
 ];
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All");
 
+  // When a category is selected, show the main idea + all previous ideas for that category as separate cards
   const filteredIdeas = useMemo(() => {
+    if (activeCategory !== "All") {
+      const mainIdea = startupIdeas.find((idea) => idea.tag === activeCategory);
+      const prevIdeas = previousIdeas[activeCategory] || [];
+      const allCategoryIdeas = [
+        ...(mainIdea ? [mainIdea] : []),
+        ...prevIdeas,
+      ];
+      if (!searchQuery.trim()) return allCategoryIdeas;
+      const q = searchQuery.toLowerCase();
+      return allCategoryIdeas.filter(
+        (idea) =>
+          idea.title.toLowerCase().includes(q) ||
+          idea.description.toLowerCase().includes(q) ||
+          idea.sourceEvent.toLowerCase().includes(q)
+      );
+    }
+
     if (!searchQuery.trim()) return startupIdeas;
     const q = searchQuery.toLowerCase();
     return startupIdeas.filter(
@@ -38,7 +43,7 @@ const Index = () => {
         idea.tag.toLowerCase().includes(q) ||
         idea.sourceEvent.toLowerCase().includes(q)
     );
-  }, [searchQuery]);
+  }, [searchQuery, activeCategory]);
 
   return (
     <div className="min-h-screen">
@@ -97,14 +102,15 @@ const Index = () => {
         <div className="flex gap-4 overflow-x-auto justify-center mb-3 flex-wrap">
           {categories.map((cat) => (
             <button
-              key={cat.name}
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
               className={`text-xs font-medium transition-colors whitespace-nowrap ${
-                cat.active
+                activeCategory === cat
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              {cat.name}
+              {cat}
             </button>
           ))}
         </div>
@@ -127,7 +133,7 @@ const Index = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {filteredIdeas.map((idea, i) => (
             <IdeaCard
-              key={idea.title}
+              key={`${idea.tag}-${idea.title}`}
               title={idea.title}
               description={idea.description}
               sourceEvent={idea.sourceEvent}
