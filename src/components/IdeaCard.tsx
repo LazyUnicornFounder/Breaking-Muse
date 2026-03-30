@@ -84,13 +84,13 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
                 href={sourceUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-muted-foreground hover:text-primary transition-colors"
+                className="text-xs text-muted-foreground/60 hover:text-primary transition-colors"
               >
-                <span className="font-medium text-card-foreground">Source:</span> {sourceEvent} ↗
+                <span className="font-medium text-muted-foreground/70">Source:</span> {sourceEvent} ↗
               </a>
             ) : (
-              <p className="text-xs text-muted-foreground">
-                <span className="font-medium text-card-foreground">Source:</span> {sourceEvent}
+              <p className="text-xs text-muted-foreground/60">
+                <span className="font-medium text-muted-foreground/70">Source:</span> {sourceEvent}
               </p>
             )}
           </div>
