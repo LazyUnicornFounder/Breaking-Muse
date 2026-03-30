@@ -9,9 +9,10 @@ import { toast } from "sonner";
 import logo from "@/assets/logo.png";
 
 const categories = [
-  "All", "Cars", "Creator", "Culture", "Education", "Fashion", "Film",
-  "Food", "Gaming", "Health", "Money", "Music", "Pets", "Politics",
-  "Science", "Space", "Sports", "Travel", "Weather",
+  "All", "Art", "Cars", "Construction", "Creator", "Culture", "Education",
+  "Fashion", "Film", "Food", "Gaming", "Health", "Living", "Money",
+  "Music", "Pets", "Politics", "Science", "Space", "Sports", "Tech",
+  "Travel", "Weather",
 ];
 
 function getAmmanDate(): string {

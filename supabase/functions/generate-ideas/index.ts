@@ -7,9 +7,10 @@ const corsHeaders = {
 };
 
 const CATEGORIES = [
-  "Health", "Weather", "Sports", "Food", "Film", "Music",
-  "Culture", "Fashion", "Space", "Pets", "Travel", "Cars",
-  "Politics", "Science", "Money", "Education", "Gaming", "Creator",
+  "Art", "Cars", "Construction", "Creator", "Culture", "Education",
+  "Fashion", "Film", "Food", "Gaming", "Health", "Living", "Money",
+  "Music", "Pets", "Politics", "Science", "Space", "Sports", "Tech",
+  "Travel", "Weather",
 ];
 
 const IDEAS_PER_CATEGORY = 10;
