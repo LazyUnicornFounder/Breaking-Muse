@@ -8,7 +8,7 @@ import logo from "@/assets/logo.png";
 
 const categories = [
   "All", "Health", "Weather", "Sports", "Food", "Film", "Music",
-  "Culture", "Fashion", "Space", "Pets", "Travel", "Cars", "Politics", "Science", "Money", "Education",
+  "Culture", "Fashion", "Space", "Pets", "Travel", "Cars", "Politics", "Science", "Money", "Education", "Gaming", "Creator",
 ];
 
 const Index = () => {
@@ -100,9 +100,9 @@ const Index = () => {
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`text-xs font-medium transition-colors whitespace-nowrap ${
+              className={`text-xs font-medium transition-colors whitespace-nowrap px-3 py-1 rounded-full ${
                 activeCategory === cat
-                  ? "text-foreground"
+                  ? "bg-red-600 text-yellow-300"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
