@@ -77,7 +77,7 @@ const Index = () => {
         {/* Hero */}
         <div className="pointer-events-none flex items-center justify-center gap-3 h-[18vh] mb-2">
           <img src={logo} alt="Breaking Muse" className="h-48 md:h-60 w-auto drop-shadow-lg" />
-          <p className="font-display text-2xl md:text-3xl text-muted-foreground italic whitespace-nowrap">
+          <p className="text-2xl md:text-3xl text-muted-foreground uppercase tracking-wide font-bold whitespace-nowrap" style={{ fontFamily: "'Oswald', sans-serif" }}>
             Turn today's news into your next startup idea.
           </p>
         </div>
