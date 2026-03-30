@@ -8,10 +8,10 @@ const corsHeaders = {
 
 const CATEGORIES = [
   "Architecture", "Art", "Boxing", "Cars", "Coffee", "Construction",
-  "Creator", "Culture", "Design", "Education", "Fashion", "Film", "Food",
-  "Gaming", "Health", "Humanitarian", "Law", "Living", "Money", "Music",
-  "Outdoors", "Parenting", "Pets", "Politics", "Real Estate", "Science",
-  "Space", "Sports", "Tech", "Travel", "VC", "Weather",
+  "Creator", "Crypto", "Culture", "Design", "Education", "Fashion", "Film",
+  "Food", "Gaming", "Health", "Humanitarian", "Law", "Living", "Money",
+  "Music", "Outdoors", "Parenting", "Pets", "Politics", "Real Estate",
+  "Science", "Space", "Sports", "Tech", "Travel", "VC", "Weather",
 ];
 
 const IDEAS_PER_CATEGORY = 10;
