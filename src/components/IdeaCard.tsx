@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowUpRight, Clock, X } from "lucide-react";
+import { ArrowUpRight, Clock } from "lucide-react";
 
 interface PrevIdea {
   title: string;
@@ -113,18 +113,21 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
             </div>
             <div className="space-y-1">
               {history.map((prev, i) => (
-                <div key={i}>
-                  <button
-                    onClick={() => setExpandedIdea(expandedIdea === i ? null : i)}
-                    className="w-full flex items-center justify-between gap-2 py-1.5 px-2 -mx-2 rounded-md hover:bg-muted/50 transition-colors text-left group/prev"
+                <div
+                  key={i}
+                  onMouseEnter={() => setExpandedIdea(i)}
+                  onMouseLeave={() => setExpandedIdea(null)}
+                >
+                  <div
+                    className="w-full flex items-center justify-between gap-2 py-1.5 px-2 -mx-2 rounded-md hover:bg-muted/50 transition-colors text-left group/prev cursor-default"
                   >
                     <p className="text-xs text-muted-foreground truncate group-hover/prev:text-foreground transition-colors">
                       {prev.title}
                     </p>
                     <span className="text-[10px] text-muted-foreground/60 whitespace-nowrap">today</span>
-                  </button>
+                  </div>
 
-                  {/* Expanded previous idea */}
+                  {/* Expanded on hover — no repeated title */}
                   <div
                     className="overflow-hidden transition-all duration-200 ease-out"
                     style={{
@@ -133,15 +136,6 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
                     }}
                   >
                     <div className="ml-2 pl-3 border-l-2 border-primary/30 py-2 mb-1">
-                      <div className="flex items-start justify-between gap-2">
-                        <p className="text-xs text-card-foreground font-medium mb-1">{prev.title}</p>
-                        <button
-                          onClick={() => setExpandedIdea(null)}
-                          className="shrink-0 p-0.5 rounded hover:bg-muted transition-colors"
-                        >
-                          <X className="w-3 h-3 text-muted-foreground" />
-                        </button>
-                      </div>
                       <p className="text-[11px] text-muted-foreground leading-relaxed mb-2">
                         {prev.description}
                       </p>
