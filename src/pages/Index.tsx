@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import IdeaCard from "@/components/IdeaCard";
 import { fetchIdeasForDate } from "@/lib/ideas";
 import { Search, Archive, RefreshCw } from "lucide-react";
-import { Slider } from "@/components/ui/slider";
 import logo from "@/assets/logo.png";
 
 const categories = [
