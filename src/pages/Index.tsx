@@ -12,11 +12,11 @@ const Index = () => {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="font-display text-3xl text-foreground italic">
-              Today's startup ideas
+            <h1 className="font-display text-4xl text-foreground italic">
+              Breaking Muse
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
-              Fresh opportunities extracted from breaking news — March 30, 2026
+              The news that gives you business ideas — March 30, 2026
             </p>
           </div>
 
