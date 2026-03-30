@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { ArrowUpRight, Clock, X } from "lucide-react";
-import { previousIdeas } from "@/data/previousIdeas";
+
+interface PrevIdea {
+  title: string;
+  description: string;
+  sourceEvent: string;
+  sourceUrl: string;
+}
 
 interface IdeaCardProps {
   title: string;
@@ -9,12 +15,13 @@ interface IdeaCardProps {
   sourceUrl?: string;
   tag: string;
   delay: number;
+  previousIdeas?: PrevIdea[];
 }
 
-const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay }: IdeaCardProps) => {
+const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, previousIdeas = [] }: IdeaCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [expandedIdea, setExpandedIdea] = useState<number | null>(null);
-  const history = previousIdeas[tag] || [];
+  const history = previousIdeas;
 
   return (
     <div
