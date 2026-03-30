@@ -33,28 +33,16 @@ const Index = () => {
 
       <main className="max-w-7xl mx-auto px-6 py-6">
         {/* Hero */}
-        <div className="flex items-center justify-center gap-6 h-[25vh] mb-6">
-          <div className="text-right">
-            <p className="font-display text-lg md:text-xl text-muted-foreground italic leading-tight">
-              The news that
-            </p>
-            <p className="font-display text-lg md:text-xl text-muted-foreground italic leading-tight">
-              gives you
-            </p>
-            <div className="mt-2 h-px w-full bg-gradient-to-l from-border to-transparent" />
-          </div>
+        <div className="flex items-center justify-center gap-8 h-[25vh] mb-6">
+          <p className="font-display text-2xl md:text-3xl text-muted-foreground italic whitespace-nowrap">
+            The news that gives you
+          </p>
 
           <img src={logo} alt="Breaking Muse" className="h-56 md:h-72 w-auto drop-shadow-lg" />
 
-          <div className="text-left">
-            <div className="mb-2 h-px w-full bg-gradient-to-r from-border to-transparent" />
-            <p className="font-display text-lg md:text-xl text-foreground italic leading-tight font-semibold">
-              business
-            </p>
-            <p className="font-display text-lg md:text-xl text-foreground italic leading-tight font-semibold">
-              ideas
-            </p>
-          </div>
+          <p className="font-display text-2xl md:text-3xl text-muted-foreground italic whitespace-nowrap">
+            business ideas
+          </p>
         </div>
 
         {/* Categories */}
