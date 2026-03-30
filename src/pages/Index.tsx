@@ -31,7 +31,7 @@ function formatDateLabel(dateStr: string, today: string): string {
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
-  const [dayOffset, setDayOffset] = useState(0); // 0 = today, -1 = yesterday
+  const dayOffset = 0;
 
   const today = getAmmanDate();
   const selectedDate = addDays(today, dayOffset);
