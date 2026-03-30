@@ -12,6 +12,12 @@ const categories = [
   { name: "SaaS" },
   { name: "Consumer" },
   { name: "Media" },
+  { name: "Sports" },
+  { name: "Food" },
+  { name: "Film" },
+  { name: "Music" },
+  { name: "Culture" },
+  { name: "Fashion" },
 ];
 
 const Index = () => {
