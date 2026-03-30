@@ -122,6 +122,7 @@ serve(async (req) => {
 
         const parsed = JSON.parse(jsonMatch[0]);
         const newsItems = parsed
+          .filter((item: { headline: string }) => !item.headline.toLowerCase().includes('youtube'))
           .map((item: { headline: string }) => ({
             headline: item.headline,
             url: `https://news.google.com/search?q=${encodeURIComponent(item.headline)}`,
