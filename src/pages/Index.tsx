@@ -20,7 +20,7 @@ const Index = () => {
       {/* Nav */}
       <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <h2 className="font-display text-lg text-foreground tracking-tight">Breaking Muse</h2>
+          <img src={logo} alt="Breaking Muse" className="h-10 w-auto" />
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
