@@ -7,7 +7,7 @@ const categories = [
   { name: "All", active: true },
   { name: "Health" },
   { name: "Climate" },
-  { name: "Consumer" },
+  
   { name: "Sports" },
   { name: "Food" },
   { name: "Film" },
