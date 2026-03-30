@@ -75,65 +75,8 @@ const Index = () => {
         <div className="flex items-center justify-center gap-3 h-[18vh] mb-2">
           <img src={logo} alt="Breaking Muse" className="h-48 md:h-60 w-auto drop-shadow-lg" />
           <p className="font-display text-2xl md:text-3xl text-muted-foreground italic whitespace-nowrap">
-            Business ideas from today's news
+            Turn today's news into your next startup idea.
           </p>
-        </div>
-
-        {/* Coming Soon + Email */}
-        <div className="flex flex-col items-center mb-8">
-          <span className="inline-block px-3 py-1 text-xs font-semibold uppercase tracking-widest bg-primary/10 text-primary rounded-full mb-3">
-            Coming Soon
-          </span>
-          <p className="text-sm text-muted-foreground mb-4 text-center max-w-md">
-            Drop your email to get fresh business ideas in your inbox daily.
-          </p>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              const form = e.target as HTMLFormElement;
-              const input = form.elements.namedItem("email") as HTMLInputElement;
-              if (input.value) {
-                input.value = "";
-                alert("Thanks! We'll keep you posted.");
-              }
-            }}
-            className="flex gap-2 w-full max-w-sm"
-          >
-            <input
-              name="email"
-              type="email"
-              required
-              placeholder="you@email.com"
-              className="flex-1 px-4 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground"
-            />
-            <button
-              type="submit"
-              className="px-5 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
-            >
-              Notify Me
-            </button>
-          </form>
-        </div>
-
-        {/* Date Slider */}
-        <div className="flex flex-col items-center mb-6">
-          <div className="w-full max-w-xs">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-xs text-muted-foreground">Yesterday</span>
-              <span className="text-sm font-medium text-card-foreground">
-                {formatDateLabel(selectedDate, today)}
-              </span>
-              <span className="text-xs text-muted-foreground">Today</span>
-            </div>
-            <Slider
-              value={[dayOffset + 1]}
-              onValueChange={([v]) => setDayOffset(v - 1)}
-              min={0}
-              max={1}
-              step={1}
-              className="w-full"
-            />
-          </div>
         </div>
 
         {/* Categories */}
