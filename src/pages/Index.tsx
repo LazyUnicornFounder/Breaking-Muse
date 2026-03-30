@@ -9,23 +9,20 @@ const Index = () => {
       <CategorySidebar />
 
       <main className="flex-1 px-8 py-6">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="font-display text-4xl text-foreground italic">
-              Breaking Muse
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              The news that gives you business ideas — March 30, 2026
-            </p>
-          </div>
-
-          <div className="relative">
+        {/* Hero */}
+        <div className="flex flex-col justify-center items-center h-[45vh] mb-8">
+          <h1 className="font-display text-6xl md:text-7xl text-foreground italic text-center">
+            Breaking Muse
+          </h1>
+          <p className="text-base text-muted-foreground mt-3 text-center">
+            The news that gives you business ideas
+          </p>
+          <div className="relative mt-6">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
               type="text"
               placeholder="Search ideas..."
-              className="pl-9 pr-4 py-2 text-sm bg-card border border-border rounded-lg w-64 focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground"
+              className="pl-9 pr-4 py-2 text-sm bg-card border border-border rounded-lg w-72 focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground"
             />
           </div>
         </div>
