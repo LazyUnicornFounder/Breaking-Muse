@@ -12,6 +12,8 @@ const CATEGORIES = [
   "Politics", "Science", "Money", "Education",
 ];
 
+const IDEAS_PER_CATEGORY = 10;
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -30,30 +32,52 @@ serve(async (req) => {
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-    // Get today's date in Amman timezone (UTC+3)
     const ammanDate = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Amman" });
 
-    // Check if we already have ideas for today
-    const { data: existing } = await supabase
+    // Check existing idea counts per category for today
+    const { data: existingIdeas } = await supabase
       .from("daily_ideas")
-      .select("id")
-      .eq("date", ammanDate)
-      .limit(1);
+      .select("tag, id")
+      .eq("date", ammanDate);
 
-    if (existing && existing.length > 0) {
+    const existingCounts: Record<string, number> = {};
+    for (const row of existingIdeas || []) {
+      existingCounts[row.tag] = (existingCounts[row.tag] || 0) + 1;
+    }
+
+    // Find categories that need more ideas
+    const categoriesToFill = CATEGORIES.filter(
+      (cat) => (existingCounts[cat] || 0) < IDEAS_PER_CATEGORY
+    );
+
+    if (categoriesToFill.length === 0) {
       return new Response(
-        JSON.stringify({ message: "Ideas already generated for today", date: ammanDate }),
+        JSON.stringify({ message: "All categories have 10 ideas for today", date: ammanDate }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    console.log(`Generating ideas for ${ammanDate}...`);
+    console.log(`Generating ideas for ${ammanDate}, categories needing ideas: ${categoriesToFill.join(", ")}`);
 
-    // Step 1: Use Perplexity to find today's news for each category
-    const newsResults: Record<string, { headline: string; url: string }[]> = {};
+    const allIdeas: Array<{
+      date: string;
+      tag: string;
+      title: string;
+      description: string;
+      source_event: string;
+      source_url: string;
+      is_featured: boolean;
+    }> = [];
 
-    for (const category of CATEGORIES) {
-      console.log(`Searching news for: ${category}`);
+    for (const category of categoriesToFill) {
+      const needed = IDEAS_PER_CATEGORY - (existingCounts[category] || 0);
+      const hasFeatured = (existingIdeas || []).some(
+        (r) => r.tag === category
+      );
+
+      console.log(`${category}: need ${needed} more ideas`);
+
+      // Step 1: Fetch news via Perplexity
       try {
         const perplexityRes = await fetch("https://api.perplexity.ai/chat/completions", {
           method: "POST",
@@ -70,7 +94,7 @@ serve(async (req) => {
               },
               {
                 role: "user",
-                content: `Find 3 important news stories from today or the last 24 hours in the "${category}" category. Return as JSON array: [{"headline": "...", "url": "https://..."}]`,
+                content: `Find ${needed} important and diverse news stories from today or the last 24 hours in the "${category}" category. Return as JSON array: [{"headline": "...", "url": "https://..."}]`,
               },
             ],
             search_recency_filter: "day",
@@ -84,44 +108,16 @@ serve(async (req) => {
 
         const perplexityData = await perplexityRes.json();
         const content = perplexityData.choices?.[0]?.message?.content || "";
-
-        // Parse JSON from response
         const jsonMatch = content.match(/\[[\s\S]*\]/);
-        if (jsonMatch) {
-          const parsed = JSON.parse(jsonMatch[0]);
-          newsResults[category] = parsed.slice(0, 3);
-        }
-      } catch (e) {
-        console.error(`Error fetching news for ${category}:`, e);
-      }
+        if (!jsonMatch) continue;
 
-      // Small delay to avoid rate limiting
-      await new Promise((r) => setTimeout(r, 500));
-    }
+        const newsItems = JSON.parse(jsonMatch[0]).slice(0, needed);
 
-    // Step 2: Use Lovable AI to generate business ideas from the news
-    const allIdeas: Array<{
-      date: string;
-      tag: string;
-      title: string;
-      description: string;
-      source_event: string;
-      source_url: string;
-      is_featured: boolean;
-    }> = [];
+        // Step 2: Generate ideas from news
+        const newsPrompt = newsItems
+          .map((n: { headline: string; url: string }, i: number) => `${i + 1}. "${n.headline}" - ${n.url}`)
+          .join("\n");
 
-    for (const category of CATEGORIES) {
-      const news = newsResults[category];
-      if (!news || news.length === 0) {
-        console.log(`No news found for ${category}, skipping`);
-        continue;
-      }
-
-      const newsPrompt = news
-        .map((n, i) => `${i + 1}. "${n.headline}" - ${n.url}`)
-        .join("\n");
-
-      try {
         const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
           method: "POST",
           headers: {
@@ -133,11 +129,11 @@ serve(async (req) => {
             messages: [
               {
                 role: "system",
-                content: `You are a startup idea generator. Given news stories, create unique, actionable startup business ideas. Return ONLY a valid JSON array.`,
+                content: "You are a startup idea generator. Given news stories, create unique, actionable startup business ideas. Return ONLY a valid JSON array.",
               },
               {
                 role: "user",
-                content: `Given these ${category} news stories from today:\n${newsPrompt}\n\nGenerate one startup idea for EACH story. Return a JSON array of objects:\n[{"title": "Startup Name", "description": "2-3 sentence business concept", "source_event": "the news headline", "source_url": "the article URL", "is_featured": false}]\n\nMark the first idea as is_featured: true. Keep descriptions punchy and entrepreneurial.`,
+                content: `Given these ${category} news stories from today:\n${newsPrompt}\n\nGenerate one startup idea for EACH story. Return a JSON array:\n[{"title": "Startup Name", "description": "2-3 sentence business concept", "source_event": "the news headline", "source_url": "the article URL", "is_featured": false}]\n\nKeep descriptions punchy and entrepreneurial.`,
               },
             ],
           }),
@@ -150,27 +146,28 @@ serve(async (req) => {
 
         const aiData = await aiRes.json();
         const aiContent = aiData.choices?.[0]?.message?.content || "";
+        const aiMatch = aiContent.match(/\[[\s\S]*\]/);
+        if (!aiMatch) continue;
 
-        const jsonMatch = aiContent.match(/\[[\s\S]*\]/);
-        if (jsonMatch) {
-          const ideas = JSON.parse(jsonMatch[0]);
-          for (const idea of ideas) {
-            allIdeas.push({
-              date: ammanDate,
-              tag: category,
-              title: idea.title,
-              description: idea.description,
-              source_event: idea.source_event || idea.sourceEvent,
-              source_url: idea.source_url || idea.sourceUrl,
-              is_featured: idea.is_featured || false,
-            });
-          }
+        const ideas = JSON.parse(aiMatch[0]);
+        let featuredSet = hasFeatured;
+
+        for (const idea of ideas.slice(0, needed)) {
+          allIdeas.push({
+            date: ammanDate,
+            tag: category,
+            title: idea.title,
+            description: idea.description,
+            source_event: idea.source_event || idea.sourceEvent,
+            source_url: idea.source_url || idea.sourceUrl,
+            is_featured: !featuredSet ? (featuredSet = true, true) : false,
+          });
         }
       } catch (e) {
-        console.error(`Error generating ideas for ${category}:`, e);
+        console.error(`Error for ${category}:`, e);
       }
 
-      await new Promise((r) => setTimeout(r, 300));
+      await new Promise((r) => setTimeout(r, 500));
     }
 
     // Step 3: Insert into database
@@ -192,7 +189,7 @@ serve(async (req) => {
         success: true,
         date: ammanDate,
         count: allIdeas.length,
-        categories: Object.keys(newsResults).length,
+        categoriesFilled: categoriesToFill.length,
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
