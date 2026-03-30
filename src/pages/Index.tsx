@@ -18,6 +18,9 @@ const categories = [
   { name: "Pets" },
   { name: "Travel" },
   { name: "Cars" },
+  { name: "Politics" },
+  { name: "Science" },
+  { name: "Money" },
 ];
 
 const Index = () => {
