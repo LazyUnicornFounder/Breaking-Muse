@@ -118,10 +118,16 @@ serve(async (req) => {
 
         const perplexityData = await perplexityRes.json();
         const content = perplexityData.choices?.[0]?.message?.content || "";
+        console.log(`Perplexity raw for ${category}:`, content.substring(0, 200));
         const jsonMatch = content.match(/\[[\s\S]*\]/);
-        if (!jsonMatch) continue;
+        if (!jsonMatch) { console.error(`No JSON array found for ${category}`); continue; }
 
-        const parsed = JSON.parse(jsonMatch[0]);
+        // Clean common JSON issues: trailing commas, control chars
+        const cleanedJson = jsonMatch[0]
+          .replace(/,\s*\]/g, ']')
+          .replace(/,\s*\}/g, '}')
+          .replace(/[\x00-\x1f]/g, ' ');
+        const parsed = JSON.parse(cleanedJson);
         const newsItems = parsed
           .filter((item: { headline: string }) => !item.headline.toLowerCase().includes('youtube'))
           .map((item: { headline: string }) => {
