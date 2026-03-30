@@ -129,7 +129,7 @@ serve(async (req) => {
           }))
           .filter((s: { url: string | null }) => s.url);
 
-        // Validate URLs in parallel with 5s timeout per request
+        // Validate URLs in parallel with 5s timeout — only reject 404/410 (truly dead)
         const validated = await Promise.all(
           rawItems.map(async (item: { headline: string; url: string }) => {
             try {
@@ -142,12 +142,15 @@ serve(async (req) => {
               });
               clearTimeout(tid);
               try { await res.text(); } catch {}
-              if (res.ok) return item;
-              console.log(`Skipping broken URL (${res.status}): ${item.url}`);
-              return null;
+              // Only reject definitively dead pages (404, 410)
+              if (res.status === 404 || res.status === 410) {
+                console.log(`Skipping dead URL (${res.status}): ${item.url}`);
+                return null;
+              }
+              return item;
             } catch {
-              console.log(`Skipping unreachable URL: ${item.url}`);
-              return null;
+              // Timeout or network error — keep the URL (could just be slow/blocking HEAD)
+              return item;
             }
           })
         );
