@@ -135,9 +135,23 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay }: Id
                           <X className="w-3 h-3 text-muted-foreground" />
                         </button>
                       </div>
-                      <p className="text-[11px] text-muted-foreground leading-relaxed">
+                      <p className="text-[11px] text-muted-foreground leading-relaxed mb-2">
                         {prev.description}
                       </p>
+                      {prev.sourceUrl ? (
+                        <a
+                          href={prev.sourceUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[10px] text-muted-foreground hover:text-primary transition-colors"
+                        >
+                          <span className="font-medium text-card-foreground">Source:</span> {prev.sourceEvent} ↗
+                        </a>
+                      ) : prev.sourceEvent ? (
+                        <p className="text-[10px] text-muted-foreground">
+                          <span className="font-medium text-card-foreground">Source:</span> {prev.sourceEvent}
+                        </p>
+                      ) : null}
                     </div>
                   </div>
                 </div>
