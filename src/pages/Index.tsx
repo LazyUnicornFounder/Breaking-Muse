@@ -1,9 +1,11 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import IdeaCard from "@/components/IdeaCard";
 import { fetchIdeasForDate } from "@/lib/ideas";
-import { Search, Archive, RefreshCw } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { Search, Archive, RefreshCw, ShieldCheck } from "lucide-react";
+import { toast } from "sonner";
 import logo from "@/assets/logo.png";
 
 const categories = [
