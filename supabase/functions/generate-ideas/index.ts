@@ -134,7 +134,7 @@ serve(async (req) => {
 
         // Step 2: Generate ideas from news
         const newsPrompt = newsItems
-          .map((n: { headline: string; url: string }, i: number) => `${i + 1}. "${n.headline}" - ${n.url}`)
+          .map((n: { headline: string; url: string }, i: number) => `${i + 1}. "${n.headline}"`)
           .join("\n");
 
         const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -152,7 +152,7 @@ serve(async (req) => {
               },
               {
                 role: "user",
-                content: `Given these ${category} news stories from today:\n${newsPrompt}\n\nFor EACH story, generate one startup idea. Rules:\n- \"title\": 2-4 words, descriptive and self-explanatory. Someone should instantly know what it does from the name alone (e.g. \"FarmInventory\", \"RentTracker\", \"ClinicQueue\"). No abstract or clever wordplay.\n- \"description\": STRICTLY one sentence, 10-20 words. No more. Explain it like you're talking to a 10-year-old. If your sentence is longer than 20 words, shorten it.\n- \"source_event\": the news headline\n- \"source_url\": the article URL\n- \"is_featured\": false\n- CRITICAL: Every idea MUST use a DIFFERENT news source. Never repeat the same headline or source. Every title must be unique — no duplicates.\n\nReturn a JSON array: [{"title": "...", "description": "...", "source_event": "...", "source_url": "...", "is_featured": false}]`,
+                content: `Given these ${category} news stories from today:\n${newsPrompt}\n\nFor EACH story, generate one startup idea. Rules:\n- \"title\": 2-4 words, descriptive and self-explanatory. Someone should instantly know what it does from the name alone (e.g. \"FarmInventory\", \"RentTracker\", \"ClinicQueue\"). No abstract or clever wordplay.\n- \"description\": STRICTLY one sentence, 10-20 words. No more. Explain it like you're talking to a 10-year-old. If your sentence is longer than 20 words, shorten it.\n- \"source_event\": the news headline (copy it exactly)\n- \"is_featured\": false\n- Do NOT include source_url in your response\n- CRITICAL: Every idea MUST use a DIFFERENT news source. Never repeat the same headline or source. Every title must be unique — no duplicates.\n\nReturn a JSON array: [{"title": "...", "description": "...", "source_event": "...", "is_featured": false}]`,
               },
             ],
           }),
@@ -181,8 +181,10 @@ serve(async (req) => {
         }
 
         let added = 0;
-        for (const idea of ideas) {
+        for (let i = 0; i < ideas.length; i++) {
           if (added >= needed) break;
+          const idea = ideas[i];
+          const newsItem = newsItems[i] || newsItems[newsItems.length - 1];
           const title = (idea.title || "").trim();
           const source = (idea.source_event || idea.sourceEvent || "").trim();
           if (usedTitles.has(title.toLowerCase()) || usedSources.has(source.toLowerCase())) continue;
@@ -194,7 +196,7 @@ serve(async (req) => {
             title,
             description: idea.description,
             source_event: source,
-            source_url: idea.source_url || idea.sourceUrl,
+            source_url: newsItem.url,
             is_featured: !featuredSet ? (featuredSet = true, true) : false,
           });
           added++;
