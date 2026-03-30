@@ -81,15 +81,15 @@ const Index = () => {
         </div>
 
         {/* Categories */}
-        <div className="flex gap-1.5 overflow-x-auto justify-center mb-3 flex-wrap">
+        <div className="flex gap-2 overflow-x-auto justify-center mb-3 flex-wrap">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(activeCategory === cat ? "All" : cat)}
-              className={`text-xs font-medium transition-colors whitespace-nowrap px-3 py-1 rounded-full ${
+              className={`text-sm font-medium transition-colors whitespace-nowrap px-4 py-2 rounded-full cursor-pointer select-none ${
                 activeCategory === cat
                   ? "bg-red-600 text-yellow-300"
-                  : "text-muted-foreground hover:text-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
               }`}
             >
               {cat}
