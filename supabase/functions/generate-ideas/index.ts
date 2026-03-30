@@ -123,10 +123,13 @@ serve(async (req) => {
         const parsed = JSON.parse(jsonMatch[0]);
         const newsItems = parsed
           .filter((item: { headline: string }) => !item.headline.toLowerCase().includes('youtube'))
-          .map((item: { headline: string }) => ({
-            headline: item.headline,
-            url: `https://news.google.com/search?q=${encodeURIComponent(item.headline)}`,
-          }))
+          .map((item: { headline: string }) => {
+            const headline = item.headline.replace(/\[\d+\]/g, '').trim();
+            return {
+              headline,
+              url: `https://news.google.com/search?q=${encodeURIComponent(headline)}`,
+            };
+          })
           .slice(0, needed);
 
         // Step 2: Generate ideas from news
