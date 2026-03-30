@@ -7,7 +7,7 @@ const corsHeaders = {
 };
 
 const CATEGORIES = [
-  "Art", "Cars", "Construction", "Creator", "Culture", "Design",
+  "Art", "Cars", "Coffee", "Construction", "Creator", "Culture", "Design",
   "Education", "Fashion", "Film", "Food", "Gaming", "Health", "Living",
   "Money", "Music", "Pets", "Politics", "Science", "Space", "Sports",
   "Tech", "Travel", "Weather",
