@@ -100,11 +100,16 @@ const Index = () => {
 
       <main className="max-w-7xl mx-auto px-6 py-6">
         {/* Hero */}
-        <div className="pointer-events-none flex items-center justify-center gap-3 h-[18vh] mb-2">
-          <img src={logo} alt="Breaking Muse" className="h-48 md:h-60 w-auto drop-shadow-lg" />
-          <p className="text-base md:text-lg text-muted-foreground tracking-tight font-semibold whitespace-nowrap" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-            Turn today's news into your next startup idea.
-          </p>
+        <div className="flex items-center justify-center gap-3 h-[18vh] mb-2">
+          <div className="pointer-events-none flex items-center gap-3">
+            <img src={logo} alt="Breaking Muse" className="h-48 md:h-60 w-auto drop-shadow-lg" />
+            <p className="text-base md:text-lg text-muted-foreground tracking-tight font-semibold whitespace-nowrap" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+              Turn today's news into your next startup idea.
+            </p>
+          </div>
+          <a href="https://www.producthunt.com/products/breaking-muse?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-breaking-muse" target="_blank" rel="noopener noreferrer" className="shrink-0">
+            <img alt="Breaking Muse - Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1111765&theme=light&t=1774899974448" />
+          </a>
         </div>
 
         {/* Categories */}
