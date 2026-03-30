@@ -100,11 +100,11 @@ serve(async (req) => {
             messages: [
               {
                 role: "system",
-                content: "You are a news researcher. Return ONLY a JSON array of objects with a 'headline' field. No other text.",
+                content: "You are a global news researcher. Return ONLY a JSON array of objects with a 'headline' field. No other text.",
               },
               {
                 role: "user",
-                content: `Find ${needed} important and diverse news stories from today or the last 24 hours in the "${category}" category. Return as JSON array: [{"headline": "..."}]`,
+                content: `Find ${needed} important and diverse news stories from today or the last 24 hours in the "${category}" category. Include stories from around the world — mix sources from different continents and countries (Europe, Asia, Africa, Latin America, Middle East, etc.), not just the United States. Return as JSON array: [{"headline": "..."}]`,
               },
             ],
             search_recency_filter: "day",
