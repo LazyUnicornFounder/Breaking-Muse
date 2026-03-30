@@ -49,14 +49,10 @@ const Index = () => {
       <main className="max-w-7xl mx-auto px-6 py-6">
         {/* Hero */}
         <div className="flex items-center justify-center gap-3 h-[18vh] mb-2">
-          <p className="font-display text-2xl md:text-3xl text-muted-foreground italic whitespace-nowrap">
-            The news that gives you
-          </p>
-
           <img src={logo} alt="Breaking Muse" className="h-48 md:h-60 w-auto drop-shadow-lg" />
 
           <p className="font-display text-2xl md:text-3xl text-muted-foreground italic whitespace-nowrap">
-            business ideas
+            Business ideas from today's news
           </p>
         </div>
 
