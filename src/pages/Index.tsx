@@ -5,11 +5,9 @@ import logo from "@/assets/logo.png";
 
 const categories = [
   { name: "All", active: true },
-  { name: "AI & ML" },
-  { name: "Health & Bio" },
+  { name: "Health" },
   { name: "Fintech" },
   { name: "Climate" },
-  { name: "SaaS" },
   { name: "Consumer" },
   { name: "Media" },
   { name: "Sports" },
@@ -18,6 +16,10 @@ const categories = [
   { name: "Music" },
   { name: "Culture" },
   { name: "Fashion" },
+  { name: "Space" },
+  { name: "Pets" },
+  { name: "Travel" },
+  { name: "Cars" },
 ];
 
 const Index = () => {
