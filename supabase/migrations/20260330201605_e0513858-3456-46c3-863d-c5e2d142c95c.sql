@@ -1,0 +1,10 @@
+UPDATE daily_ideas SET description = 'A maker of inflatable covers that quickly protect parked cars from heavy hail and flying debris.' WHERE id = '6f520cb6-9ef5-42ea-b0e8-6f346001f1e1';
+UPDATE daily_ideas SET description = 'A protection system for electronics to survive powerful solar flares and radio blackouts.' WHERE id = 'f8fc96b0-6eff-4444-b3c4-c8cc5bbc3ecc';
+UPDATE daily_ideas SET description = 'A service that cleans and repairs used rocket boosters so they can fly safely again and again.' WHERE id = '51afb97c-a2e4-4d80-95e9-7dea4ab07ee9';
+UPDATE daily_ideas SET description = 'A service that helps car owners maintain and upgrade their older gas vehicles as new car prices rise.' WHERE id = '7b954d97-96e4-458d-8c2c-b21f03771f1e';
+UPDATE daily_ideas SET description = 'An automation tool that finishes all the boring paperwork and planning for big social media marketing projects.' WHERE id = '62730ba4-96e2-4b72-8610-3d787e589548';
+UPDATE daily_ideas SET description = 'A live video platform for shelter dogs like Mahogany to help find them loving homes.' WHERE id = 'e64354b5-e224-4e06-9c26-37177605cbd2';
+UPDATE daily_ideas SET description = 'A special insurance and protection plan for satellites during dangerous solar plasma cloud events.' WHERE id = 'd16a7c12-8142-435b-a70b-3206807af642';
+UPDATE daily_ideas SET description = 'A real-time alert service for street closures and traffic changes in your city.' WHERE id = '1fc2b8c1-27e5-48eb-abb0-9bae074933a8';
+UPDATE daily_ideas SET description = 'A simple way to send money between the United States and Latin America.' WHERE id = 'd6633fb1-05e1-4356-8fc4-f1012b52ea42';
+UPDATE daily_ideas SET description = 'A laser scanning service that creates digital parts for owners who need to fix vintage vehicles.' WHERE id = '3ed7a3a9-be50-4c83-b5f6-326ad63524a0';
