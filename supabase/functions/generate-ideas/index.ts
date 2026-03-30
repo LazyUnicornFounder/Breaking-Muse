@@ -129,27 +129,29 @@ serve(async (req) => {
           }))
           .filter((s: { url: string | null }) => s.url);
 
-        // Validate URLs with HEAD requests, fall back to GET on failure
-        const validatedItems: { headline: string; url: string }[] = [];
-        for (const item of rawItems) {
-          if (validatedItems.length >= needed) break;
-          try {
-            let res = await fetch(item.url, { method: "HEAD", redirect: "follow" });
-            if (!res.ok) {
-              res = await fetch(item.url, { method: "GET", redirect: "follow" });
-            }
-            if (res.ok) {
-              validatedItems.push(item);
-            } else {
+        // Validate URLs in parallel with 5s timeout per request
+        const validated = await Promise.all(
+          rawItems.map(async (item: { headline: string; url: string }) => {
+            try {
+              const controller = new AbortController();
+              const tid = setTimeout(() => controller.abort(), 5000);
+              const res = await fetch(item.url, {
+                method: "HEAD",
+                redirect: "follow",
+                signal: controller.signal,
+              });
+              clearTimeout(tid);
+              try { await res.text(); } catch {}
+              if (res.ok) return item;
               console.log(`Skipping broken URL (${res.status}): ${item.url}`);
+              return null;
+            } catch {
+              console.log(`Skipping unreachable URL: ${item.url}`);
+              return null;
             }
-            // Consume body to prevent resource leak
-            try { await res.text(); } catch {}
-          } catch (e) {
-            console.log(`Skipping unreachable URL: ${item.url}`, e);
-          }
-        }
-        const newsItems = validatedItems;
+          })
+        );
+        const newsItems = validated.filter(Boolean).slice(0, needed) as { headline: string; url: string }[];
 
         // Step 2: Generate ideas from news
         const newsPrompt = newsItems
