@@ -171,16 +171,33 @@ serve(async (req) => {
         const ideas = JSON.parse(aiMatch[0]);
         let featuredSet = hasFeatured;
 
-        for (const idea of ideas.slice(0, needed)) {
+        // Deduplicate: track used titles and sources across all ideas
+        const usedTitles = new Set(allIdeas.map(i => i.title.toLowerCase()));
+        const usedSources = new Set(allIdeas.map(i => i.source_event.toLowerCase()));
+        // Also include existing DB ideas in dedup sets
+        for (const row of existingIdeas || []) {
+          usedTitles.add((row as any).title?.toLowerCase?.() || "");
+          usedSources.add((row as any).source_event?.toLowerCase?.() || "");
+        }
+
+        let added = 0;
+        for (const idea of ideas) {
+          if (added >= needed) break;
+          const title = (idea.title || "").trim();
+          const source = (idea.source_event || idea.sourceEvent || "").trim();
+          if (usedTitles.has(title.toLowerCase()) || usedSources.has(source.toLowerCase())) continue;
+          usedTitles.add(title.toLowerCase());
+          usedSources.add(source.toLowerCase());
           allIdeas.push({
             date: ammanDate,
             tag: category,
-            title: idea.title,
+            title,
             description: idea.description,
-            source_event: idea.source_event || idea.sourceEvent,
+            source_event: source,
             source_url: idea.source_url || idea.sourceUrl,
             is_featured: !featuredSet ? (featuredSet = true, true) : false,
           });
+          added++;
         }
       } catch (e) {
         console.error(`Error for ${category}:`, e);
