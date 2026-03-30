@@ -51,7 +51,7 @@ const Index = () => {
             Coming Soon
           </span>
           <p className="text-sm text-muted-foreground mb-4 text-center max-w-md">
-            Drop your email to celebrate the launch.
+            Drop your email to get fresh business ideas in your inbox daily.
           </p>
           <form
             onSubmit={(e) => {
