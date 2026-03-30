@@ -99,7 +99,7 @@ const Index = () => {
           {categories.map((cat) => (
             <button
               key={cat}
-              onClick={() => setActiveCategory(cat)}
+              onClick={() => setActiveCategory(activeCategory === cat ? "All" : cat)}
               className={`text-xs font-medium transition-colors whitespace-nowrap px-3 py-1 rounded-full ${
                 activeCategory === cat
                   ? "bg-red-600 text-yellow-300"
