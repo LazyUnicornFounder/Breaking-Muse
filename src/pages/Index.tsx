@@ -75,7 +75,7 @@ const Index = () => {
 
       <main className="max-w-7xl mx-auto px-6 py-6">
         {/* Hero */}
-        <div className="flex items-center justify-center gap-3 h-[18vh] mb-2">
+        <div className="pointer-events-none flex items-center justify-center gap-3 h-[18vh] mb-2">
           <img src={logo} alt="Breaking Muse" className="h-48 md:h-60 w-auto drop-shadow-lg" />
           <p className="font-display text-2xl md:text-3xl text-muted-foreground italic whitespace-nowrap">
             Turn today's news into your next startup idea.
@@ -83,7 +83,7 @@ const Index = () => {
         </div>
 
         {/* Categories */}
-        <div className="flex gap-2 overflow-x-auto justify-center mb-3 flex-wrap">
+        <div className="relative z-10 flex gap-2 overflow-x-auto justify-center mb-3 flex-wrap">
           {categories.map((cat) => (
             <button
               key={cat}
