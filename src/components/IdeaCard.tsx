@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowUpRight, Clock } from "lucide-react";
+import { ArrowUpRight, Clock, X } from "lucide-react";
 import { previousIdeas } from "@/data/previousIdeas";
 
 interface IdeaCardProps {
@@ -13,6 +13,7 @@ interface IdeaCardProps {
 
 const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay }: IdeaCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [expandedIdea, setExpandedIdea] = useState<number | null>(null);
   const history = previousIdeas[tag] || [];
 
   return (
@@ -20,7 +21,7 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay }: Id
       className="relative opacity-0 animate-fade-in"
       style={{ animationDelay: `${delay}ms` }}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={() => { setIsHovered(false); setExpandedIdea(null); }}
     >
       {/* Stacked cards behind — visible on hover */}
       {history.length > 0 && (
@@ -92,7 +93,7 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay }: Id
         <div
           className="overflow-hidden transition-all duration-300 ease-out"
           style={{
-            maxHeight: isHovered && history.length > 0 ? "200px" : "0px",
+            maxHeight: isHovered && history.length > 0 ? "400px" : "0px",
             opacity: isHovered ? 1 : 0,
           }}
         >
@@ -100,14 +101,45 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay }: Id
             <div className="flex items-center gap-1.5 mb-2">
               <Clock className="w-3 h-3 text-muted-foreground" />
               <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-                Previous ideas
+                Previous ideas today
               </span>
             </div>
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               {history.map((prev, i) => (
-                <div key={i} className="flex items-center justify-between gap-2">
-                  <p className="text-xs text-muted-foreground truncate">{prev.title}</p>
-                  <span className="text-[10px] text-muted-foreground/60 whitespace-nowrap">{prev.date}</span>
+                <div key={i}>
+                  <button
+                    onClick={() => setExpandedIdea(expandedIdea === i ? null : i)}
+                    className="w-full flex items-center justify-between gap-2 py-1.5 px-2 -mx-2 rounded-md hover:bg-muted/50 transition-colors text-left group/prev"
+                  >
+                    <p className="text-xs text-muted-foreground truncate group-hover/prev:text-foreground transition-colors">
+                      {prev.title}
+                    </p>
+                    <span className="text-[10px] text-muted-foreground/60 whitespace-nowrap">{prev.date}</span>
+                  </button>
+
+                  {/* Expanded previous idea */}
+                  <div
+                    className="overflow-hidden transition-all duration-200 ease-out"
+                    style={{
+                      maxHeight: expandedIdea === i ? "200px" : "0px",
+                      opacity: expandedIdea === i ? 1 : 0,
+                    }}
+                  >
+                    <div className="ml-2 pl-3 border-l-2 border-primary/30 py-2 mb-1">
+                      <div className="flex items-start justify-between gap-2">
+                        <p className="text-xs text-card-foreground font-medium mb-1">{prev.title}</p>
+                        <button
+                          onClick={() => setExpandedIdea(null)}
+                          className="shrink-0 p-0.5 rounded hover:bg-muted transition-colors"
+                        >
+                          <X className="w-3 h-3 text-muted-foreground" />
+                        </button>
+                      </div>
+                      <p className="text-[11px] text-muted-foreground leading-relaxed">
+                        {prev.description}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
