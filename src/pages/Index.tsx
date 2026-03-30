@@ -51,7 +51,7 @@ const Index = () => {
             Coming Soon
           </span>
           <p className="text-sm text-muted-foreground mb-4 text-center max-w-md">
-            Get daily AI-generated startup ideas delivered to your inbox — powered by the latest news.
+            Drop your email to celebrate the launch.
           </p>
           <form
             onSubmit={(e) => {
