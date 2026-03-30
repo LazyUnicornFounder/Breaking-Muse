@@ -9,7 +9,7 @@ const corsHeaders = {
 const CATEGORIES = [
   "Health", "Weather", "Sports", "Food", "Film", "Music",
   "Culture", "Fashion", "Space", "Pets", "Travel", "Cars",
-  "Politics", "Science", "Money",
+  "Politics", "Science", "Money", "Education",
 ];
 
 serve(async (req) => {
