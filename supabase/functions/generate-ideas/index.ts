@@ -152,7 +152,7 @@ serve(async (req) => {
               },
               {
                 role: "user",
-                content: `Given these ${category} news stories from today:\n${newsPrompt}\n\nFor EACH story, generate one startup idea. Rules:\n- \"title\": 2-4 words, descriptive and self-explanatory. Someone should instantly know what it does from the name alone (e.g. \"FarmInventory\", \"RentTracker\", \"ClinicQueue\"). No abstract or clever wordplay.\n- \"description\": STRICTLY one sentence, 10-20 words. No more. Explain it like you're talking to a 10-year-old. If your sentence is longer than 20 words, shorten it.\n- \"source_event\": the news headline\n- \"source_url\": the article URL\n- \"is_featured\": false\n\nReturn a JSON array: [{"title": "...", "description": "...", "source_event": "...", "source_url": "...", "is_featured": false}]`,
+                content: `Given these ${category} news stories from today:\n${newsPrompt}\n\nFor EACH story, generate one startup idea. Rules:\n- \"title\": 2-4 words, descriptive and self-explanatory. Someone should instantly know what it does from the name alone (e.g. \"FarmInventory\", \"RentTracker\", \"ClinicQueue\"). No abstract or clever wordplay.\n- \"description\": STRICTLY one sentence, 10-20 words. No more. Explain it like you're talking to a 10-year-old. If your sentence is longer than 20 words, shorten it.\n- \"source_event\": the news headline\n- \"source_url\": the article URL\n- \"is_featured\": false\n- CRITICAL: Every idea MUST use a DIFFERENT news source. Never repeat the same headline or source. Every title must be unique — no duplicates.\n\nReturn a JSON array: [{"title": "...", "description": "...", "source_event": "...", "source_url": "...", "is_featured": false}]`,
               },
             ],
           }),
@@ -171,16 +171,33 @@ serve(async (req) => {
         const ideas = JSON.parse(aiMatch[0]);
         let featuredSet = hasFeatured;
 
-        for (const idea of ideas.slice(0, needed)) {
+        // Deduplicate: track used titles and sources across all ideas
+        const usedTitles = new Set(allIdeas.map(i => i.title.toLowerCase()));
+        const usedSources = new Set(allIdeas.map(i => i.source_event.toLowerCase()));
+        // Also include existing DB ideas in dedup sets
+        for (const row of existingIdeas || []) {
+          usedTitles.add((row as any).title?.toLowerCase?.() || "");
+          usedSources.add((row as any).source_event?.toLowerCase?.() || "");
+        }
+
+        let added = 0;
+        for (const idea of ideas) {
+          if (added >= needed) break;
+          const title = (idea.title || "").trim();
+          const source = (idea.source_event || idea.sourceEvent || "").trim();
+          if (usedTitles.has(title.toLowerCase()) || usedSources.has(source.toLowerCase())) continue;
+          usedTitles.add(title.toLowerCase());
+          usedSources.add(source.toLowerCase());
           allIdeas.push({
             date: ammanDate,
             tag: category,
-            title: idea.title,
+            title,
             description: idea.description,
-            source_event: idea.source_event || idea.sourceEvent,
+            source_event: source,
             source_url: idea.source_url || idea.sourceUrl,
             is_featured: !featuredSet ? (featuredSet = true, true) : false,
           });
+          added++;
         }
       } catch (e) {
         console.error(`Error for ${category}:`, e);
