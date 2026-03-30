@@ -70,7 +70,7 @@ const Archive = () => {
 
         {!isLoading && archiveDays.length === 0 ? (
           <div className="text-center py-16">
-            <p className="text-muted-foreground">No archived ideas yet. Check back tomorrow!</p>
+            <p className="text-muted-foreground">Archive will start filling soon.</p>
           </div>
         ) : (
           <div className="space-y-4">
