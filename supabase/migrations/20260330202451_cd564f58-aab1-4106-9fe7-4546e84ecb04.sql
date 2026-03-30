@@ -1,0 +1,1 @@
+SELECT cron.unschedule('generate-ideas-throughout-day');
