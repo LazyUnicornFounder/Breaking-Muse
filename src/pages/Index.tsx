@@ -1,17 +1,17 @@
 import IdeaCard from "@/components/IdeaCard";
 import { startupIdeas } from "@/data/ideas";
-import { Search, Cpu, Heart, DollarSign, Leaf, Cloud, ShoppingBag, Newspaper, Zap } from "lucide-react";
+import { Search } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const categories = [
-  { name: "All", icon: Zap, active: true },
-  { name: "AI & ML", icon: Cpu },
-  { name: "Health & Bio", icon: Heart },
-  { name: "Fintech", icon: DollarSign },
-  { name: "Climate", icon: Leaf },
-  { name: "SaaS", icon: Cloud },
-  { name: "Consumer", icon: ShoppingBag },
-  { name: "Media", icon: Newspaper },
+  { name: "All", active: true },
+  { name: "AI & ML" },
+  { name: "Health & Bio" },
+  { name: "Fintech" },
+  { name: "Climate" },
+  { name: "SaaS" },
+  { name: "Consumer" },
+  { name: "Media" },
 ];
 
 const Index = () => {
@@ -19,29 +19,27 @@ const Index = () => {
     <div className="min-h-screen">
       {/* Nav */}
       <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-          <div />
-          <div className="flex gap-2 overflow-x-auto justify-center">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex flex-col items-center gap-3">
+          <div className="flex gap-4 overflow-x-auto justify-center">
             {categories.map((cat) => (
               <button
                 key={cat.name}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap ${
+                className={`text-xs font-medium transition-colors whitespace-nowrap ${
                   cat.active
-                    ? "bg-foreground text-background"
-                    : "bg-secondary text-muted-foreground hover:text-foreground hover:bg-accent"
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                <cat.icon className="w-3.5 h-3.5" />
                 {cat.name}
               </button>
             ))}
           </div>
-          <div className="relative">
+          <div className="relative w-full max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
               type="text"
               placeholder="Search ideas..."
-              className="pl-9 pr-4 py-2 text-sm bg-card border border-border rounded-lg w-64 focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground"
+              className="w-full pl-9 pr-4 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground"
             />
           </div>
         </div>
