@@ -137,6 +137,17 @@ const Index = () => {
             />
           ))}
         </div>
+
+        {/* Archive link */}
+        <div className="flex justify-center mt-8 mb-4">
+          <Link
+            to="/archive"
+            className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border border-border rounded-lg hover:bg-muted/50 transition-colors"
+          >
+            <Archive className="w-4 h-4" />
+            View previous days' ideas
+          </Link>
+        </div>
       </main>
     </div>
   );
