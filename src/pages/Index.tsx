@@ -19,8 +19,23 @@ const Index = () => {
     <div className="min-h-screen">
       {/* Nav */}
       <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <img src={logo} alt="Breaking Muse" className="h-10 w-auto" />
+        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+          <div />
+          <div className="flex gap-2 overflow-x-auto justify-center">
+            {categories.map((cat) => (
+              <button
+                key={cat.name}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap ${
+                  cat.active
+                    ? "bg-foreground text-background"
+                    : "bg-secondary text-muted-foreground hover:text-foreground hover:bg-accent"
+                }`}
+              >
+                <cat.icon className="w-3.5 h-3.5" />
+                {cat.name}
+              </button>
+            ))}
+          </div>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
@@ -29,22 +44,6 @@ const Index = () => {
               className="pl-9 pr-4 py-2 text-sm bg-card border border-border rounded-lg w-64 focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground"
             />
           </div>
-        </div>
-        {/* Category nav */}
-        <div className="max-w-7xl mx-auto px-6 pb-3 flex gap-2 overflow-x-auto">
-          {categories.map((cat) => (
-            <button
-              key={cat.name}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap ${
-                cat.active
-                  ? "bg-foreground text-background"
-                  : "bg-secondary text-muted-foreground hover:text-foreground hover:bg-accent"
-              }`}
-            >
-              <cat.icon className="w-3.5 h-3.5" />
-              {cat.name}
-            </button>
-          ))}
         </div>
       </header>
 
