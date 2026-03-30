@@ -104,7 +104,7 @@ serve(async (req) => {
               },
               {
                 role: "user",
-                content: `Find ${needed} important and diverse news stories from today or the last 24 hours in the "${category}" category. Include stories from around the world — mix sources from different continents and countries (Europe, Asia, Africa, Latin America, Middle East, etc.), not just the United States. Return as JSON array: [{"headline": "..."}]`,
+                content: `Find ${needed} important and diverse news stories from today or the last 24 hours STRICTLY about "${category}". The stories must be specifically and directly about ${category} — do NOT include unrelated topics. Include stories from around the world — mix sources from different continents and countries (Europe, Asia, Africa, Latin America, Middle East, etc.), not just the United States. Return as JSON array: [{"headline": "..."}]`,
               },
             ],
             search_recency_filter: "day",
