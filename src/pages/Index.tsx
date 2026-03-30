@@ -138,7 +138,7 @@ const Index = () => {
         </div>
 
         {/* Categories */}
-        <div className="flex gap-4 overflow-x-auto justify-center mb-3 flex-wrap">
+        <div className="flex gap-1.5 overflow-x-auto justify-center mb-3 flex-wrap">
           {categories.map((cat) => (
             <button
               key={cat}
