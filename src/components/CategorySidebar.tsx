@@ -16,9 +16,9 @@ const CategorySidebar = () => {
     <aside className="w-56 shrink-0 bg-sidebar border-r border-sidebar-border h-screen sticky top-0 flex flex-col">
       <div className="p-6 pb-4">
         <h1 className="font-display text-xl text-sidebar-primary tracking-tight">
-          IdeaSpark
+          Breaking Muse
         </h1>
-        <p className="text-xs text-sidebar-foreground mt-1">Today's news → startup ideas</p>
+        <p className="text-xs text-sidebar-foreground mt-1">The news that gives you business ideas</p>
       </div>
 
       <nav className="flex-1 px-3">
