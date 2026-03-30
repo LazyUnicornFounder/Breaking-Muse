@@ -1,6 +1,7 @@
 import IdeaCard from "@/components/IdeaCard";
 import { startupIdeas } from "@/data/ideas";
 import { Search, Cpu, Heart, DollarSign, Leaf, Cloud, ShoppingBag, Newspaper, Zap } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const categories = [
   { name: "All", icon: Zap, active: true },
