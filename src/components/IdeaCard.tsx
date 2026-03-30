@@ -54,7 +54,7 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
 
       {/* Main card */}
       <div
-        className={`relative z-10 bg-card rounded-lg border border-border transition-all duration-300 ${
+        className={`group relative z-10 bg-card rounded-lg border border-border transition-all duration-300 ${
           isHovered ? "shadow-xl -translate-y-1" : "shadow-none"
         }`}
       >
