@@ -1,0 +1,1 @@
+DELETE FROM daily_ideas WHERE date = CURRENT_DATE
