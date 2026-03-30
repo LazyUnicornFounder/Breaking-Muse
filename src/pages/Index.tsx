@@ -7,8 +7,9 @@ import { Search, Archive, RefreshCw } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const categories = [
-  "All", "Health", "Weather", "Sports", "Food", "Film", "Music",
-  "Culture", "Fashion", "Space", "Pets", "Travel", "Cars", "Politics", "Science", "Money", "Education", "Gaming", "Creator",
+  "All", "Cars", "Creator", "Culture", "Education", "Fashion", "Film",
+  "Food", "Gaming", "Health", "Money", "Music", "Pets", "Politics",
+  "Science", "Space", "Sports", "Travel", "Weather",
 ];
 
 function getAmmanDate(): string {
