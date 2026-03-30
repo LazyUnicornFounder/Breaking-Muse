@@ -33,16 +33,52 @@ const Index = () => {
 
       <main className="max-w-7xl mx-auto px-6 py-6">
         {/* Hero */}
-        <div className="flex items-center justify-center gap-3 h-[25vh] mb-6">
+        <div className="flex items-center justify-center gap-3 h-[18vh] mb-2">
           <p className="font-display text-2xl md:text-3xl text-muted-foreground italic whitespace-nowrap">
             The news that gives you
           </p>
 
-          <img src={logo} alt="Breaking Muse" className="h-56 md:h-72 w-auto drop-shadow-lg" />
+          <img src={logo} alt="Breaking Muse" className="h-48 md:h-60 w-auto drop-shadow-lg" />
 
           <p className="font-display text-2xl md:text-3xl text-muted-foreground italic whitespace-nowrap">
             business ideas
           </p>
+        </div>
+
+        {/* Coming Soon + Email */}
+        <div className="flex flex-col items-center mb-8">
+          <span className="inline-block px-3 py-1 text-xs font-semibold uppercase tracking-widest bg-primary/10 text-primary rounded-full mb-3">
+            Coming Soon
+          </span>
+          <p className="text-sm text-muted-foreground mb-4 text-center max-w-md">
+            Get daily AI-generated startup ideas delivered to your inbox — powered by the latest news.
+          </p>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const form = e.target as HTMLFormElement;
+              const input = form.elements.namedItem("email") as HTMLInputElement;
+              if (input.value) {
+                input.value = "";
+                alert("Thanks! We'll keep you posted.");
+              }
+            }}
+            className="flex gap-2 w-full max-w-sm"
+          >
+            <input
+              name="email"
+              type="email"
+              required
+              placeholder="you@email.com"
+              className="flex-1 px-4 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground"
+            />
+            <button
+              type="submit"
+              className="px-5 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              Notify Me
+            </button>
+          </form>
         </div>
 
         {/* Categories */}
