@@ -19,21 +19,7 @@ const Index = () => {
     <div className="min-h-screen">
       {/* Nav */}
       <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex flex-col items-center gap-3">
-          <div className="flex gap-4 overflow-x-auto justify-center">
-            {categories.map((cat) => (
-              <button
-                key={cat.name}
-                className={`text-xs font-medium transition-colors whitespace-nowrap ${
-                  cat.active
-                    ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {cat.name}
-              </button>
-            ))}
-          </div>
+        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-center">
           <div className="relative w-full max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
@@ -52,6 +38,22 @@ const Index = () => {
           <p className="text-base text-muted-foreground mt-3 text-center">
             The news that gives you business ideas
           </p>
+        </div>
+
+        {/* Categories */}
+        <div className="flex gap-4 overflow-x-auto justify-center mb-4">
+          {categories.map((cat) => (
+            <button
+              key={cat.name}
+              className={`text-xs font-medium transition-colors whitespace-nowrap ${
+                cat.active
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {cat.name}
+            </button>
+          ))}
         </div>
 
         {/* Cards grid */}
