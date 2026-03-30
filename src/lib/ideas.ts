@@ -67,6 +67,12 @@ export async function fetchTodayIdeas(): Promise<{
   return { featured, all };
 }
 
+const CATEGORY_ORDER = [
+  "Health", "Weather", "Sports", "Food", "Film", "Music",
+  "Culture", "Fashion", "Space", "Pets", "Travel", "Cars",
+  "Politics", "Science", "Money", "Education", "Gaming", "Creator",
+];
+
 /**
  * Fetch archived ideas (all days before today).
  */
@@ -78,8 +84,7 @@ export async function fetchArchiveIdeas(): Promise<DayIdeas[]> {
     .select("*")
     .lt("date", today)
     .order("date", { ascending: false })
-    .order("is_featured", { ascending: false })
-    .order("tag");
+    .order("is_featured", { ascending: false });
 
   if (error) {
     console.error("Error fetching archive:", error);
@@ -104,6 +109,10 @@ export async function fetchArchiveIdeas(): Promise<DayIdeas[]> {
 
   return Array.from(dayMap.entries()).map(([date, ideas]) => ({
     date,
-    ideas,
+    ideas: ideas.sort((a, b) => {
+      const ai = CATEGORY_ORDER.indexOf(a.tag);
+      const bi = CATEGORY_ORDER.indexOf(b.tag);
+      return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+    }),
   }));
 }
