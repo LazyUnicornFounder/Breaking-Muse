@@ -6,10 +6,8 @@ import logo from "@/assets/logo.png";
 const categories = [
   { name: "All", active: true },
   { name: "Health" },
-  { name: "Fintech" },
   { name: "Climate" },
   { name: "Consumer" },
-  { name: "Media" },
   { name: "Sports" },
   { name: "Food" },
   { name: "Film" },
