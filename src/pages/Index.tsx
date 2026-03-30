@@ -118,7 +118,6 @@ const Index = () => {
               description={idea.description}
               sourceEvent={idea.sourceEvent}
               tag={idea.tag}
-              tagColor={idea.tagColor}
               delay={i * 60}
             />
           ))}
