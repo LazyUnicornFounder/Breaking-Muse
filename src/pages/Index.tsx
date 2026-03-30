@@ -1,3 +1,4 @@
+import { useState, useMemo } from "react";
 import IdeaCard from "@/components/IdeaCard";
 import { startupIdeas } from "@/data/ideas";
 import { Search } from "lucide-react";
@@ -24,6 +25,20 @@ const categories = [
 ];
 
 const Index = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredIdeas = useMemo(() => {
+    if (!searchQuery.trim()) return startupIdeas;
+    const q = searchQuery.toLowerCase();
+    return startupIdeas.filter(
+      (idea) =>
+        idea.title.toLowerCase().includes(q) ||
+        idea.description.toLowerCase().includes(q) ||
+        idea.tag.toLowerCase().includes(q) ||
+        idea.sourceEvent.toLowerCase().includes(q)
+    );
+  }, [searchQuery]);
+
   return (
     <div className="min-h-screen">
       {/* Header - just logo area */}
@@ -104,6 +119,8 @@ const Index = () => {
             <input
               type="text"
               placeholder="Search ideas..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-9 pr-4 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground"
             />
           </div>
@@ -111,9 +128,9 @@ const Index = () => {
 
         {/* Cards grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {startupIdeas.map((idea, i) => (
+          {filteredIdeas.map((idea, i) => (
             <IdeaCard
-              key={i}
+              key={idea.title}
               title={idea.title}
               description={idea.description}
               sourceEvent={idea.sourceEvent}
