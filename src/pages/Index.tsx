@@ -34,6 +34,8 @@ function formatDateLabel(dateStr: string, today: string): string {
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [isRegenerating, setIsRegenerating] = useState(false);
+  const queryClient = useQueryClient();
   const dayOffset = 0;
 
   const today = getAmmanDate();
