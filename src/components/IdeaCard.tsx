@@ -19,7 +19,7 @@ interface IdeaCardProps {
   historyLabel?: string;
 }
 
-const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, previousIdeas = [] }: IdeaCardProps) => {
+const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, previousIdeas = [], historyLabel = "Previous ideas today" }: IdeaCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [expandedIdea, setExpandedIdea] = useState<number | null>(null);
   const history = previousIdeas;
