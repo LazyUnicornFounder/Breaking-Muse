@@ -19,8 +19,23 @@ const Index = () => {
     <div className="min-h-screen">
       {/* Nav */}
       <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <img src={logo} alt="Breaking Muse" className="h-10 w-auto" />
+        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+          <div />
+          <div className="flex gap-2 overflow-x-auto justify-center">
+            {categories.map((cat) => (
+              <button
+                key={cat.name}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap ${
+                  cat.active
+                    ? "bg-foreground text-background"
+                    : "bg-secondary text-muted-foreground hover:text-foreground hover:bg-accent"
+                }`}
+              >
+                <cat.icon className="w-3.5 h-3.5" />
+                {cat.name}
+              </button>
+            ))}
+          </div>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
@@ -30,28 +45,12 @@ const Index = () => {
             />
           </div>
         </div>
-        {/* Category nav */}
-        <div className="max-w-7xl mx-auto px-6 pb-3 flex gap-2 overflow-x-auto">
-          {categories.map((cat) => (
-            <button
-              key={cat.name}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap ${
-                cat.active
-                  ? "bg-foreground text-background"
-                  : "bg-secondary text-muted-foreground hover:text-foreground hover:bg-accent"
-              }`}
-            >
-              <cat.icon className="w-3.5 h-3.5" />
-              {cat.name}
-            </button>
-          ))}
-        </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-6">
         {/* Hero */}
         <div className="flex flex-col justify-center items-center h-[40vh] mb-8">
-          <img src={logo} alt="Breaking Muse" className="h-32 md:h-40 w-auto" />
+          <img src={logo} alt="Breaking Muse" className="h-56 md:h-72 w-auto" />
           <p className="text-base text-muted-foreground mt-3 text-center">
             The news that gives you business ideas
           </p>
