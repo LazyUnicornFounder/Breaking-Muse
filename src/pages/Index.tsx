@@ -47,9 +47,11 @@ const Index = () => {
   const allByCategory = data?.all || {};
 
   const filteredIdeas = useMemo(() => {
+    const allIdeas = Object.values(allByCategory).flat();
+
     let ideas = activeCategory !== "All"
       ? (allByCategory[activeCategory] || [])
-      : featured;
+      : (searchQuery.trim() ? allIdeas : featured);
 
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
