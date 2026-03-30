@@ -86,11 +86,18 @@ serve(async (req) => {
         (r) => r.tag === category
       );
 
-      console.log(`${category}: need ${needed} more ideas`);
+      // Split: 50% from Arab world, 50% global
+      const arabNeeded = Math.ceil(needed / 2);
+      const globalNeeded = needed - arabNeeded;
 
-      // Step 1: Fetch news via Perplexity
-      try {
-        const perplexityRes = await fetch("https://api.perplexity.ai/chat/completions", {
+      console.log(`${category}: need ${needed} more ideas (${arabNeeded} Arab, ${globalNeeded} global)`);
+
+      const fetchNews = async (count: number, region: "arab" | "global") => {
+        const regionPrompt = region === "arab"
+          ? `Find ${count} important news stories from today or the last 24 hours STRICTLY about "${category}" from the Arab world (Middle East and North Africa — countries like Jordan, Saudi Arabia, UAE, Egypt, Qatar, Kuwait, Bahrain, Oman, Iraq, Lebanon, Morocco, Tunisia, Algeria, Libya, Sudan, Palestine, Yemen, etc.). Return as JSON array: [{"headline": "..."}]`
+          : `Find ${count} important and diverse news stories from today or the last 24 hours STRICTLY about "${category}". The stories must be specifically and directly about ${category} — do NOT include unrelated topics. Include stories from around the world — mix sources from different continents and countries (Europe, Asia, Africa, Latin America, etc.), but NOT from the Arab world / Middle East / North Africa. Return as JSON array: [{"headline": "..."}]`;
+
+        const res = await fetch("https://api.perplexity.ai/chat/completions", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
@@ -103,33 +110,29 @@ serve(async (req) => {
                 role: "system",
                 content: "You are a global news researcher. Return ONLY a JSON array of objects with a 'headline' field. No other text.",
               },
-              {
-                role: "user",
-                content: `Find ${needed} important and diverse news stories from today or the last 24 hours STRICTLY about "${category}". The stories must be specifically and directly about ${category} — do NOT include unrelated topics. Include stories from around the world — mix sources from different continents and countries (Europe, Asia, Africa, Latin America, Middle East, etc.), not just the United States. Return as JSON array: [{"headline": "..."}]`,
-              },
+              { role: "user", content: regionPrompt },
             ],
             search_recency_filter: "day",
           }),
         });
 
-        if (!perplexityRes.ok) {
-          console.error(`Perplexity error for ${category}: ${perplexityRes.status}`);
-          continue;
+        if (!res.ok) {
+          console.error(`Perplexity error for ${category} (${region}): ${res.status}`);
+          return [];
         }
 
-        const perplexityData = await perplexityRes.json();
-        const content = perplexityData.choices?.[0]?.message?.content || "";
-        console.log(`Perplexity raw for ${category}:`, content.substring(0, 200));
+        const data = await res.json();
+        const content = data.choices?.[0]?.message?.content || "";
+        console.log(`Perplexity raw for ${category} (${region}):`, content.substring(0, 200));
         const jsonMatch = content.match(/\[[\s\S]*\]/);
-        if (!jsonMatch) { console.error(`No JSON array found for ${category}`); continue; }
+        if (!jsonMatch) { console.error(`No JSON array found for ${category} (${region})`); return []; }
 
-        // Clean common JSON issues: trailing commas, control chars
         const cleanedJson = jsonMatch[0]
           .replace(/,\s*\]/g, ']')
           .replace(/,\s*\}/g, '}')
           .replace(/[\x00-\x1f]/g, ' ');
         const parsed = JSON.parse(cleanedJson);
-        const newsItems = parsed
+        return parsed
           .filter((item: { headline: string }) => !item.headline.toLowerCase().includes('youtube'))
           .map((item: { headline: string }) => {
             const headline = item.headline.replace(/\[\d+\]/g, '').trim();
@@ -138,7 +141,18 @@ serve(async (req) => {
               url: `https://www.google.com/search?q=${encodeURIComponent(headline)}+news`,
             };
           })
-          .slice(0, needed);
+          .slice(0, count);
+      };
+
+      try {
+        const [arabNews, globalNews] = await Promise.all([
+          arabNeeded > 0 ? fetchNews(arabNeeded, "arab") : Promise.resolve([]),
+          globalNeeded > 0 ? fetchNews(globalNeeded, "global") : Promise.resolve([]),
+        ]);
+
+        const newsItems = [...arabNews, ...globalNews];
+
+        if (newsItems.length === 0) { console.error(`No news found for ${category}`); continue; }
 
         // Step 2: Generate ideas from news
         const newsPrompt = newsItems
