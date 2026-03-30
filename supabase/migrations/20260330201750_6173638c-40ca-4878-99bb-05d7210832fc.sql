@@ -1,0 +1,1 @@
+DELETE FROM daily_ideas WHERE tag = 'Boxing' AND date = '2026-03-30';

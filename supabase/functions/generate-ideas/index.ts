@@ -104,7 +104,7 @@ serve(async (req) => {
               },
               {
                 role: "user",
-                content: `Find ${needed} important and diverse news stories from today or the last 24 hours in the "${category}" category. Include stories from around the world — mix sources from different continents and countries (Europe, Asia, Africa, Latin America, Middle East, etc.), not just the United States. Return as JSON array: [{"headline": "..."}]`,
+                content: `Find ${needed} important and diverse news stories from today or the last 24 hours STRICTLY about "${category}". The stories must be specifically and directly about ${category} — do NOT include unrelated topics. Include stories from around the world — mix sources from different continents and countries (Europe, Asia, Africa, Latin America, Middle East, etc.), not just the United States. Return as JSON array: [{"headline": "..."}]`,
               },
             ],
             search_recency_filter: "day",
@@ -118,10 +118,16 @@ serve(async (req) => {
 
         const perplexityData = await perplexityRes.json();
         const content = perplexityData.choices?.[0]?.message?.content || "";
+        console.log(`Perplexity raw for ${category}:`, content.substring(0, 200));
         const jsonMatch = content.match(/\[[\s\S]*\]/);
-        if (!jsonMatch) continue;
+        if (!jsonMatch) { console.error(`No JSON array found for ${category}`); continue; }
 
-        const parsed = JSON.parse(jsonMatch[0]);
+        // Clean common JSON issues: trailing commas, control chars
+        const cleanedJson = jsonMatch[0]
+          .replace(/,\s*\]/g, ']')
+          .replace(/,\s*\}/g, '}')
+          .replace(/[\x00-\x1f]/g, ' ');
+        const parsed = JSON.parse(cleanedJson);
         const newsItems = parsed
           .filter((item: { headline: string }) => !item.headline.toLowerCase().includes('youtube'))
           .map((item: { headline: string }) => {
