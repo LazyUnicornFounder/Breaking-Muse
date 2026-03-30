@@ -1,7 +1,8 @@
 import { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import IdeaCard from "@/components/IdeaCard";
 import { startupIdeas } from "@/data/ideas";
-import { Search } from "lucide-react";
+import { Search, Archive } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const categories = [
