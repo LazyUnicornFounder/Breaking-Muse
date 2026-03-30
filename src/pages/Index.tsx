@@ -1,9 +1,9 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import IdeaCard from "@/components/IdeaCard";
-import { startupIdeas } from "@/data/ideas";
-import { previousIdeas } from "@/data/previousIdeas";
-import { Search, Archive } from "lucide-react";
+import { fetchTodayIdeas } from "@/lib/ideas";
+import { Search, Archive, RefreshCw } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const categories = [
@@ -15,39 +15,36 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
 
-  // When a category is selected, show the main idea + all previous ideas for that category as separate cards
+  const { data, isLoading } = useQuery({
+    queryKey: ["today-ideas"],
+    queryFn: fetchTodayIdeas,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const featured = data?.featured || [];
+  const allByCategory = data?.all || {};
+
   const filteredIdeas = useMemo(() => {
-    if (activeCategory !== "All") {
-      const mainIdea = startupIdeas.find((idea) => idea.tag === activeCategory);
-      const prevIdeas = previousIdeas[activeCategory] || [];
-      const allCategoryIdeas = [
-        ...(mainIdea ? [mainIdea] : []),
-        ...prevIdeas,
-      ];
-      if (!searchQuery.trim()) return allCategoryIdeas;
+    let ideas = activeCategory !== "All"
+      ? (allByCategory[activeCategory] || [])
+      : featured;
+
+    if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
-      return allCategoryIdeas.filter(
+      ideas = ideas.filter(
         (idea) =>
           idea.title.toLowerCase().includes(q) ||
           idea.description.toLowerCase().includes(q) ||
+          idea.tag.toLowerCase().includes(q) ||
           idea.sourceEvent.toLowerCase().includes(q)
       );
     }
 
-    if (!searchQuery.trim()) return startupIdeas;
-    const q = searchQuery.toLowerCase();
-    return startupIdeas.filter(
-      (idea) =>
-        idea.title.toLowerCase().includes(q) ||
-        idea.description.toLowerCase().includes(q) ||
-        idea.tag.toLowerCase().includes(q) ||
-        idea.sourceEvent.toLowerCase().includes(q)
-    );
-  }, [searchQuery, activeCategory]);
+    return ideas;
+  }, [searchQuery, activeCategory, featured, allByCategory]);
 
   return (
     <div className="min-h-screen">
-      {/* Header - just logo area */}
       <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-2" />
       </header>
@@ -56,7 +53,6 @@ const Index = () => {
         {/* Hero */}
         <div className="flex items-center justify-center gap-3 h-[18vh] mb-2">
           <img src={logo} alt="Breaking Muse" className="h-48 md:h-60 w-auto drop-shadow-lg" />
-
           <p className="font-display text-2xl md:text-3xl text-muted-foreground italic whitespace-nowrap">
             Business ideas from today's news
           </p>
@@ -129,20 +125,46 @@ const Index = () => {
           </div>
         </div>
 
+        {/* Loading state */}
+        {isLoading && (
+          <div className="flex justify-center py-12">
+            <RefreshCw className="w-6 h-6 text-muted-foreground animate-spin" />
+          </div>
+        )}
+
         {/* Cards grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {filteredIdeas.map((idea, i) => (
-            <IdeaCard
-              key={`${idea.tag}-${idea.title}`}
-              title={idea.title}
-              description={idea.description}
-              sourceEvent={idea.sourceEvent}
-              sourceUrl={idea.sourceUrl}
-              tag={idea.tag}
-              delay={i * 60}
-            />
-          ))}
+          {filteredIdeas.map((idea, i) => {
+            // When showing "All", pass non-featured ideas as previous ideas for hover
+            const prevIdeas = activeCategory === "All"
+              ? (allByCategory[idea.tag] || [])
+                  .filter((p) => p.title !== idea.title)
+                  .map((p) => ({
+                    title: p.title,
+                    description: p.description,
+                    sourceEvent: p.sourceEvent,
+                    sourceUrl: p.sourceUrl,
+                  }))
+              : [];
+
+            return (
+              <IdeaCard
+                key={`${idea.tag}-${idea.title}`}
+                title={idea.title}
+                description={idea.description}
+                sourceEvent={idea.sourceEvent}
+                sourceUrl={idea.sourceUrl}
+                tag={idea.tag}
+                delay={i * 60}
+                previousIdeas={prevIdeas}
+              />
+            );
+          })}
         </div>
+
+        {!isLoading && filteredIdeas.length === 0 && (
+          <p className="text-center text-muted-foreground py-12">No ideas found.</p>
+        )}
 
         {/* Archive link */}
         <div className="flex justify-center mt-8 mb-4">
