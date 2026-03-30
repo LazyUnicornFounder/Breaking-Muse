@@ -25,6 +25,20 @@ const categories = [
 ];
 
 const Index = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredIdeas = useMemo(() => {
+    if (!searchQuery.trim()) return startupIdeas;
+    const q = searchQuery.toLowerCase();
+    return startupIdeas.filter(
+      (idea) =>
+        idea.title.toLowerCase().includes(q) ||
+        idea.description.toLowerCase().includes(q) ||
+        idea.tag.toLowerCase().includes(q) ||
+        idea.sourceEvent.toLowerCase().includes(q)
+    );
+  }, [searchQuery]);
+
   return (
     <div className="min-h-screen">
       {/* Header - just logo area */}
