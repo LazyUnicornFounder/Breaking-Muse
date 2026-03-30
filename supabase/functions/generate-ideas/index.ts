@@ -99,11 +99,11 @@ serve(async (req) => {
             messages: [
               {
                 role: "system",
-                content: "You are a news researcher. Return ONLY a JSON array of objects with 'headline' and 'url' fields. No other text. URLs must be real, direct article links (not homepages).",
+                content: "You are a news researcher. Return ONLY a JSON array of objects with 'headline' and 'citation_index' fields. No other text. citation_index is the 0-based index of the citation that backs this story.",
               },
               {
                 role: "user",
-                content: `Find ${needed} important and diverse news stories from today or the last 24 hours in the "${category}" category. Return as JSON array: [{"headline": "...", "url": "https://..."}]`,
+                content: `Find ${needed} important and diverse news stories from today or the last 24 hours in the "${category}" category. Return as JSON array: [{"headline": "...", "citation_index": 0}]`,
               },
             ],
             search_recency_filter: "day",
@@ -116,11 +116,19 @@ serve(async (req) => {
         }
 
         const perplexityData = await perplexityRes.json();
+        const citations = perplexityData.citations ?? [];
         const content = perplexityData.choices?.[0]?.message?.content || "";
         const jsonMatch = content.match(/\[[\s\S]*\]/);
         if (!jsonMatch) continue;
 
-        const newsItems = JSON.parse(jsonMatch[0]).slice(0, needed);
+        const parsed = JSON.parse(jsonMatch[0]);
+        const newsItems = parsed
+          .map((item: { headline: string; citation_index: number }) => ({
+            headline: item.headline,
+            url: citations[item.citation_index] ?? null,
+          }))
+          .filter((s: { url: string | null }) => s.url)
+          .slice(0, needed);
 
         // Step 2: Generate ideas from news
         const newsPrompt = newsItems
