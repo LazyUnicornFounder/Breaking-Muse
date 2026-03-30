@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowUpRight, Clock, X } from "lucide-react";
+import { ArrowUpRight, Clock } from "lucide-react";
 
 interface PrevIdea {
   title: string;
