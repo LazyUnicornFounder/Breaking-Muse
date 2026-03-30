@@ -148,11 +148,11 @@ serve(async (req) => {
             messages: [
               {
                 role: "system",
-                content: "You are a startup idea namer and describer. Given news stories, invent a unique startup idea for each one. Return ONLY a valid JSON array.",
+                content: "You are a startup idea namer. Given news stories, invent one startup idea per story. Return ONLY a valid JSON array.",
               },
               {
                 role: "user",
-                content: `Given these ${category} news stories from today:\n${newsPrompt}\n\nFor EACH story, generate one startup idea. Rules:\n- \"title\": A short, catchy startup name, 2-4 words max (e.g. \"PermitPilot\", \"TrustLoop\", \"NestPulse\")\n- \"description\": 1-2 plain sentences. Explain it like you would to a friend — no jargon, no buzzwords.\n- \"source_event\": the news headline\n- \"source_url\": the article URL\n- \"is_featured\": false\n\nReturn a JSON array: [{"title": "...", "description": "...", "source_event": "...", "source_url": "...", "is_featured": false}]`,
+                content: `Given these ${category} news stories from today:\n${newsPrompt}\n\nFor EACH story, generate one startup idea. Rules:\n- \"title\": 2-4 words, descriptive and self-explanatory. Someone should instantly know what it does from the name alone (e.g. \"FarmInventory\", \"RentTracker\", \"ClinicQueue\"). No abstract or clever wordplay.\n- \"description\": One sentence, 10 words max. Explain it like you're talking to a 10-year-old. Make it stick.\n- \"source_event\": the news headline\n- \"source_url\": the article URL\n- \"is_featured\": false\n\nReturn a JSON array: [{"title": "...", "description": "...", "source_event": "...", "source_url": "...", "is_featured": false}]`,
               },
             ],
           }),
