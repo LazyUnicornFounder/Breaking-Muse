@@ -100,7 +100,7 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
         <div
           className="overflow-hidden transition-all duration-300 ease-out"
           style={{
-            maxHeight: isHovered && history.length > 0 ? "400px" : "0px",
+            maxHeight: isHovered && history.length > 0 ? "2000px" : "0px",
             opacity: isHovered ? 1 : 0,
           }}
         >
