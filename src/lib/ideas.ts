@@ -22,24 +22,24 @@ function getAmmanDate(): string {
 }
 
 /**
- * Fetch today's ideas from the database.
- * Returns featured ideas and all ideas for the current Amman-timezone day.
+ * Fetch ideas for a specific date.
+ * Returns featured ideas and all ideas grouped by category.
  */
-export async function fetchTodayIdeas(): Promise<{
+export async function fetchIdeasForDate(date?: string): Promise<{
   featured: IdeaEntry[];
   all: Record<string, IdeaEntry[]>;
 }> {
-  const today = getAmmanDate();
+  const targetDate = date || getAmmanDate();
 
   const { data, error } = await supabase
     .from("daily_ideas")
     .select("*")
-    .eq("date", today)
+    .eq("date", targetDate)
     .order("is_featured", { ascending: false })
     .order("tag");
 
   if (error) {
-    console.error("Error fetching today's ideas:", error);
+    console.error("Error fetching ideas:", error);
     return { featured: [], all: {} };
   }
 
@@ -66,6 +66,9 @@ export async function fetchTodayIdeas(): Promise<{
 
   return { featured, all };
 }
+
+/** @deprecated Use fetchIdeasForDate instead */
+export const fetchTodayIdeas = () => fetchIdeasForDate();
 
 const CATEGORY_ORDER = [
   "Health", "Weather", "Sports", "Food", "Film", "Music",
