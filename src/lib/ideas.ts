@@ -31,6 +31,23 @@ export async function fetchIdeasForDate(date?: string): Promise<{
 }> {
   const targetDate = date || getAmmanDate();
 
+  const result = await _fetchIdeasForDateInternal(targetDate);
+
+  // If no ideas found for today's date, retry with yesterday's date
+  if (result.featured.length === 0 && Object.keys(result.all).length === 0 && targetDate === getAmmanDate()) {
+    const yesterday = new Date(targetDate + "T12:00:00");
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toISOString().slice(0, 10);
+    return _fetchIdeasForDateInternal(yesterdayStr);
+  }
+
+  return result;
+}
+
+async function _fetchIdeasForDateInternal(targetDate: string): Promise<{
+  featured: IdeaEntry[];
+  all: Record<string, IdeaEntry[]>;
+}> {
   const { data, error } = await supabase
     .from("daily_ideas")
     .select("*")
