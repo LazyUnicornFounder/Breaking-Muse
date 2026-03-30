@@ -134,17 +134,32 @@ const Index = () => {
 
         {/* Cards grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {filteredIdeas.map((idea, i) => (
-            <IdeaCard
-              key={`${idea.tag}-${idea.title}`}
-              title={idea.title}
-              description={idea.description}
-              sourceEvent={idea.sourceEvent}
-              sourceUrl={idea.sourceUrl}
-              tag={idea.tag}
-              delay={i * 60}
-            />
-          ))}
+          {filteredIdeas.map((idea, i) => {
+            // When showing "All", pass non-featured ideas as previous ideas for hover
+            const prevIdeas = activeCategory === "All"
+              ? (allByCategory[idea.tag] || [])
+                  .filter((p) => p.title !== idea.title)
+                  .map((p) => ({
+                    title: p.title,
+                    description: p.description,
+                    sourceEvent: p.sourceEvent,
+                    sourceUrl: p.sourceUrl,
+                  }))
+              : [];
+
+            return (
+              <IdeaCard
+                key={`${idea.tag}-${idea.title}`}
+                title={idea.title}
+                description={idea.description}
+                sourceEvent={idea.sourceEvent}
+                sourceUrl={idea.sourceUrl}
+                tag={idea.tag}
+                delay={i * 60}
+                previousIdeas={prevIdeas}
+              />
+            );
+          })}
         </div>
 
         {!isLoading && filteredIdeas.length === 0 && (
