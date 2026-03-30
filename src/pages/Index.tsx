@@ -97,19 +97,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 py-2 flex justify-end">
-          <button
-            onClick={handleRegenerate}
-            disabled={isRegenerating}
-            className="flex items-center gap-1.5 text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors disabled:opacity-50"
-            title="Admin: Regenerate today's ideas"
-          >
-            <ShieldCheck className="w-3.5 h-3.5" />
-            {isRegenerating ? "Regenerating..." : "Regenerate"}
-          </button>
-        </div>
-      </header>
 
       <main className="max-w-7xl mx-auto px-6 py-6">
         {/* Hero */}
