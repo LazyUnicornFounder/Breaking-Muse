@@ -1,6 +1,7 @@
 import IdeaCard from "@/components/IdeaCard";
 import { startupIdeas } from "@/data/ideas";
 import { Search, Cpu, Heart, DollarSign, Leaf, Cloud, ShoppingBag, Newspaper, Zap } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const categories = [
   { name: "All", icon: Zap, active: true },
@@ -19,7 +20,7 @@ const Index = () => {
       {/* Nav */}
       <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <h2 className="font-display text-lg text-foreground tracking-tight">Breaking Muse</h2>
+          <img src={logo} alt="Breaking Muse" className="h-10 w-auto" />
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
@@ -50,9 +51,7 @@ const Index = () => {
       <main className="max-w-7xl mx-auto px-6 py-6">
         {/* Hero */}
         <div className="flex flex-col justify-center items-center h-[40vh] mb-8">
-          <h1 className="font-display text-6xl md:text-7xl text-foreground italic text-center">
-            Breaking Muse
-          </h1>
+          <img src={logo} alt="Breaking Muse" className="h-32 md:h-40 w-auto" />
           <p className="text-base text-muted-foreground mt-3 text-center">
             The news that gives you business ideas
           </p>
