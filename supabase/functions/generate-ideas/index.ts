@@ -122,13 +122,34 @@ serve(async (req) => {
         if (!jsonMatch) continue;
 
         const parsed = JSON.parse(jsonMatch[0]);
-        const newsItems = parsed
+        const rawItems = parsed
           .map((item: { headline: string; citation_index: number }) => ({
             headline: item.headline,
             url: citations[item.citation_index] ?? null,
           }))
-          .filter((s: { url: string | null }) => s.url)
-          .slice(0, needed);
+          .filter((s: { url: string | null }) => s.url);
+
+        // Validate URLs with HEAD requests, fall back to GET on failure
+        const validatedItems: { headline: string; url: string }[] = [];
+        for (const item of rawItems) {
+          if (validatedItems.length >= needed) break;
+          try {
+            let res = await fetch(item.url, { method: "HEAD", redirect: "follow" });
+            if (!res.ok) {
+              res = await fetch(item.url, { method: "GET", redirect: "follow" });
+            }
+            if (res.ok) {
+              validatedItems.push(item);
+            } else {
+              console.log(`Skipping broken URL (${res.status}): ${item.url}`);
+            }
+            // Consume body to prevent resource leak
+            try { await res.text(); } catch {}
+          } catch (e) {
+            console.log(`Skipping unreachable URL: ${item.url}`, e);
+          }
+        }
+        const newsItems = validatedItems;
 
         // Step 2: Generate ideas from news
         const newsPrompt = newsItems
