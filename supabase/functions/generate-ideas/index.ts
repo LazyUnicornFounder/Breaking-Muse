@@ -99,11 +99,11 @@ serve(async (req) => {
             messages: [
               {
                 role: "system",
-                content: "You are a news researcher. Return ONLY a JSON array of objects with 'headline' and 'citation_index' fields. No other text. citation_index is the 0-based index of the citation that backs this story.",
+                content: "You are a news researcher. Return ONLY a JSON array of objects with a 'headline' field. No other text.",
               },
               {
                 role: "user",
-                content: `Find ${needed} important and diverse news stories from today or the last 24 hours in the "${category}" category. Return as JSON array: [{"headline": "...", "citation_index": 0}]`,
+                content: `Find ${needed} important and diverse news stories from today or the last 24 hours in the "${category}" category. Return as JSON array: [{"headline": "..."}]`,
               },
             ],
             search_recency_filter: "day",
@@ -116,45 +116,17 @@ serve(async (req) => {
         }
 
         const perplexityData = await perplexityRes.json();
-        const citations = perplexityData.citations ?? [];
         const content = perplexityData.choices?.[0]?.message?.content || "";
         const jsonMatch = content.match(/\[[\s\S]*\]/);
         if (!jsonMatch) continue;
 
         const parsed = JSON.parse(jsonMatch[0]);
-        const rawItems = parsed
-          .map((item: { headline: string; citation_index: number }) => ({
+        const newsItems = parsed
+          .map((item: { headline: string }) => ({
             headline: item.headline,
-            url: citations[item.citation_index] ?? null,
+            url: `https://news.google.com/search?q=${encodeURIComponent(item.headline)}`,
           }))
-          .filter((s: { url: string | null }) => s.url);
-
-        // Validate URLs in parallel with 5s timeout — only reject 404/410 (truly dead)
-        const validated = await Promise.all(
-          rawItems.map(async (item: { headline: string; url: string }) => {
-            try {
-              const controller = new AbortController();
-              const tid = setTimeout(() => controller.abort(), 5000);
-              const res = await fetch(item.url, {
-                method: "HEAD",
-                redirect: "follow",
-                signal: controller.signal,
-              });
-              clearTimeout(tid);
-              try { await res.text(); } catch {}
-              // Only reject definitively dead pages (404, 410)
-              if (res.status === 404 || res.status === 410) {
-                console.log(`Skipping dead URL (${res.status}): ${item.url}`);
-                return null;
-              }
-              return item;
-            } catch {
-              // Timeout or network error — keep the URL (could just be slow/blocking HEAD)
-              return item;
-            }
-          })
-        );
-        const newsItems = validated.filter(Boolean).slice(0, needed) as { headline: string; url: string }[];
+          .slice(0, needed);
 
         // Step 2: Generate ideas from news
         const newsPrompt = newsItems
