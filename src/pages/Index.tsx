@@ -12,8 +12,8 @@ const categories = [
   "All", "Art", "Boxing", "Cars", "Coffee", "Construction", "Creator",
   "Culture", "Design", "Education", "Fashion", "Film", "Food", "Gaming",
   "Health", "Humanitarian", "Law", "Living", "Money", "Music", "Outdoors",
-  "Pets", "Politics", "Science", "Space", "Sports", "Tech", "Travel",
-  "VC", "Weather",
+  "Pets", "Politics", "Real Estate", "Science", "Space", "Sports", "Tech",
+  "Travel", "VC", "Weather",
 ];
 
 function getAmmanDate(): string {
