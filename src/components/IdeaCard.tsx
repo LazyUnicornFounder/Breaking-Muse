@@ -16,6 +16,7 @@ interface IdeaCardProps {
   tag: string;
   delay: number;
   previousIdeas?: PrevIdea[];
+  historyLabel?: string;
 }
 
 const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, previousIdeas = [] }: IdeaCardProps) => {
