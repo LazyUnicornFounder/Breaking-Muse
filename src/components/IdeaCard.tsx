@@ -125,7 +125,7 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
                     <p className="text-xs text-muted-foreground truncate group-hover/prev:text-foreground transition-colors">
                       {prev.title}
                     </p>
-                    <span className="text-[10px] text-muted-foreground/60 whitespace-nowrap">today</span>
+                    <span className="text-[10px] text-muted-foreground/60 whitespace-nowrap">{historyLabel === "Previous ideas today" ? "today" : ""}</span>
                   </div>
 
                   {/* Expanded on hover — no repeated title */}
