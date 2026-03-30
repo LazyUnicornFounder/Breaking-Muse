@@ -8,7 +8,7 @@ import logo from "@/assets/logo.png";
 
 const categories = [
   "All", "Health", "Weather", "Sports", "Food", "Film", "Music",
-  "Culture", "Fashion", "Space", "Pets", "Travel", "Cars", "Politics", "Science", "Money", "Education",
+  "Culture", "Fashion", "Space", "Pets", "Travel", "Cars", "Politics", "Science", "Money", "Education", "Gaming", "Creator",
 ];
 
 const Index = () => {
