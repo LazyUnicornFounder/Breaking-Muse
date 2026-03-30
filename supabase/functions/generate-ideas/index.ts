@@ -127,7 +127,7 @@ serve(async (req) => {
             const headline = item.headline.replace(/\[\d+\]/g, '').trim();
             return {
               headline,
-              url: `https://news.google.com/search?q=${encodeURIComponent(headline)}`,
+              url: `https://www.google.com/search?q=${encodeURIComponent(headline)}&tbm=nws`,
             };
           })
           .slice(0, needed);
