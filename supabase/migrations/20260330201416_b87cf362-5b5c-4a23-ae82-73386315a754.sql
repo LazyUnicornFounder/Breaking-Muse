@@ -1,0 +1,1 @@
+UPDATE daily_ideas SET description = 'An app that lets customers pay for coffee in advance to avoid rising prices at the store.' WHERE id = 'f11774e8-a72a-408b-9b35-8faf969c73dc';
