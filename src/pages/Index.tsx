@@ -6,7 +6,7 @@ import logo from "@/assets/logo.png";
 const categories = [
   { name: "All", active: true },
   { name: "Health" },
-  { name: "Climate" },
+  { name: "Weather" },
   
   { name: "Sports" },
   { name: "Food" },
