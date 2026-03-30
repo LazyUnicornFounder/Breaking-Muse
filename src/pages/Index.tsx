@@ -128,9 +128,9 @@ const Index = () => {
 
         {/* Cards grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {startupIdeas.map((idea, i) => (
+          {filteredIdeas.map((idea, i) => (
             <IdeaCard
-              key={i}
+              key={idea.title}
               title={idea.title}
               description={idea.description}
               sourceEvent={idea.sourceEvent}
