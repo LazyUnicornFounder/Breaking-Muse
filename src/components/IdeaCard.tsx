@@ -16,9 +16,10 @@ interface IdeaCardProps {
   tag: string;
   delay: number;
   previousIdeas?: PrevIdea[];
+  historyLabel?: string;
 }
 
-const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, previousIdeas = [] }: IdeaCardProps) => {
+const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, previousIdeas = [], historyLabel = "Previous ideas today" }: IdeaCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [expandedIdea, setExpandedIdea] = useState<number | null>(null);
   const history = previousIdeas;
@@ -108,7 +109,7 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
             <div className="flex items-center gap-1.5 mb-2">
               <Clock className="w-3 h-3 text-muted-foreground" />
               <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-                Previous ideas today
+                {historyLabel}
               </span>
             </div>
             <div className="space-y-1">
@@ -124,7 +125,7 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
                     <p className="text-xs text-muted-foreground truncate group-hover/prev:text-foreground transition-colors">
                       {prev.title}
                     </p>
-                    <span className="text-[10px] text-muted-foreground/60 whitespace-nowrap">today</span>
+                    <span className="text-[10px] text-muted-foreground/60 whitespace-nowrap">{historyLabel === "Previous ideas today" ? "today" : ""}</span>
                   </div>
 
                   {/* Expanded on hover — no repeated title */}

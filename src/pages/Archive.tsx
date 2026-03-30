@@ -107,6 +107,7 @@ const Archive = () => {
                             sourceUrl={featured.sourceUrl}
                             tag={featured.tag}
                             delay={i * 60}
+                            historyLabel={`More ${featured.tag} ideas`}
                             previousIdeas={others.map((p) => ({
                               title: p.title,
                               description: p.description,

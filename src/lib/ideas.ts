@@ -71,9 +71,11 @@ export async function fetchIdeasForDate(date?: string): Promise<{
 export const fetchTodayIdeas = () => fetchIdeasForDate();
 
 const CATEGORY_ORDER = [
-  "Health", "Weather", "Sports", "Food", "Film", "Music",
-  "Culture", "Fashion", "Space", "Pets", "Travel", "Cars",
-  "Politics", "Science", "Money", "Education", "Gaming", "Creator",
+  "Art", "Boxing", "Cars", "Coffee", "Construction", "Creator", "Culture",
+  "Design", "Education", "Fashion", "Film", "Food", "Gaming", "Health",
+  "Humanitarian", "Law", "Living", "Money", "Music", "Outdoors", "Pets",
+  "Politics", "Real Estate", "Science", "Space", "Sports", "Tech", "Travel",
+  "VC", "Weather",
 ];
 
 /**
