@@ -20,6 +20,14 @@ serve(async (req) => {
   }
 
   try {
+    // Accept optional category subset to avoid timeouts
+    let requestedCategories: string[] | null = null;
+    try {
+      const body = await req.json();
+      if (body.categories && Array.isArray(body.categories)) {
+        requestedCategories = body.categories;
+      }
+    } catch { /* no body or invalid JSON, use all categories */ }
     const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
     if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY not configured");
 
@@ -46,7 +54,8 @@ serve(async (req) => {
     }
 
     // Find categories that need more ideas
-    const categoriesToFill = CATEGORIES.filter(
+    const pool = requestedCategories || CATEGORIES;
+    const categoriesToFill = pool.filter(
       (cat) => (existingCounts[cat] || 0) < IDEAS_PER_CATEGORY
     );
 

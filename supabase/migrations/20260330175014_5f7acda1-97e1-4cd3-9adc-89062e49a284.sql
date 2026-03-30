@@ -1,0 +1,1 @@
+DELETE FROM daily_ideas WHERE created_at > '2026-03-30T17:46:00+00:00' AND date = '2026-03-30'
