@@ -1,3 +1,4 @@
+import { useState, useMemo } from "react";
 import IdeaCard from "@/components/IdeaCard";
 import { startupIdeas } from "@/data/ideas";
 import { Search } from "lucide-react";
