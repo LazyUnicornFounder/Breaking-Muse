@@ -1,0 +1,1 @@
+DELETE FROM daily_ideas WHERE tag = 'VC' AND date = '2026-03-30';
