@@ -2,8 +2,9 @@ import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import IdeaCard from "@/components/IdeaCard";
-import { fetchTodayIdeas } from "@/lib/ideas";
+import { fetchIdeasForDate } from "@/lib/ideas";
 import { Search, Archive, RefreshCw } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
 import logo from "@/assets/logo.png";
 
 const categories = [
@@ -11,13 +12,34 @@ const categories = [
   "Culture", "Fashion", "Space", "Pets", "Travel", "Cars", "Politics", "Science", "Money", "Education", "Gaming", "Creator",
 ];
 
+function getAmmanDate(): string {
+  return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Amman" });
+}
+
+function addDays(dateStr: string, days: number): string {
+  const d = new Date(dateStr + "T12:00:00");
+  d.setDate(d.getDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
+function formatDateLabel(dateStr: string, today: string): string {
+  if (dateStr === today) return "Today";
+  if (dateStr === addDays(today, -1)) return "Yesterday";
+  const d = new Date(dateStr + "T12:00:00");
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
+
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [dayOffset, setDayOffset] = useState(0); // 0 = today, -1 = yesterday
+
+  const today = getAmmanDate();
+  const selectedDate = addDays(today, dayOffset);
 
   const { data, isLoading } = useQuery({
-    queryKey: ["today-ideas"],
-    queryFn: fetchTodayIdeas,
+    queryKey: ["ideas", selectedDate],
+    queryFn: () => fetchIdeasForDate(selectedDate),
     staleTime: 5 * 60 * 1000,
   });
 
@@ -94,6 +116,27 @@ const Index = () => {
           </form>
         </div>
 
+        {/* Date Slider */}
+        <div className="flex flex-col items-center mb-6">
+          <div className="w-full max-w-xs">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-xs text-muted-foreground">Yesterday</span>
+              <span className="text-sm font-medium text-card-foreground">
+                {formatDateLabel(selectedDate, today)}
+              </span>
+              <span className="text-xs text-muted-foreground">Today</span>
+            </div>
+            <Slider
+              value={[dayOffset + 1]}
+              onValueChange={([v]) => setDayOffset(v - 1)}
+              min={0}
+              max={1}
+              step={1}
+              className="w-full"
+            />
+          </div>
+        </div>
+
         {/* Categories */}
         <div className="flex gap-4 overflow-x-auto justify-center mb-3 flex-wrap">
           {categories.map((cat) => (
@@ -135,7 +178,6 @@ const Index = () => {
         {/* Cards grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {filteredIdeas.map((idea, i) => {
-            // When showing "All", pass non-featured ideas as previous ideas for hover
             const prevIdeas = activeCategory === "All"
               ? (allByCategory[idea.tag] || [])
                   .filter((p) => p.title !== idea.title)
