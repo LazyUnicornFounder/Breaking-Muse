@@ -1,7 +1,8 @@
 import { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import IdeaCard from "@/components/IdeaCard";
 import { startupIdeas } from "@/data/ideas";
-import { Search } from "lucide-react";
+import { Search, Archive } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const categories = [
@@ -135,6 +136,17 @@ const Index = () => {
               delay={i * 60}
             />
           ))}
+        </div>
+
+        {/* Archive link */}
+        <div className="flex justify-center mt-8 mb-4">
+          <Link
+            to="/archive"
+            className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border border-border rounded-lg hover:bg-muted/50 transition-colors"
+          >
+            <Archive className="w-4 h-4" />
+            View previous days' ideas
+          </Link>
         </div>
       </main>
     </div>

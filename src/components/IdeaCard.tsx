@@ -114,7 +114,7 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay }: Id
                     <p className="text-xs text-muted-foreground truncate group-hover/prev:text-foreground transition-colors">
                       {prev.title}
                     </p>
-                    <span className="text-[10px] text-muted-foreground/60 whitespace-nowrap">{prev.date}</span>
+                    <span className="text-[10px] text-muted-foreground/60 whitespace-nowrap">today</span>
                   </button>
 
                   {/* Expanded previous idea */}
