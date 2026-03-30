@@ -50,7 +50,7 @@ const Index = () => {
       <main className="max-w-7xl mx-auto px-6 py-6">
         {/* Hero */}
         <div className="flex flex-col justify-center items-center h-[40vh] mb-8">
-          <img src={logo} alt="Breaking Muse" className="h-32 md:h-40 w-auto" />
+          <img src={logo} alt="Breaking Muse" className="h-56 md:h-72 w-auto" />
           <p className="text-base text-muted-foreground mt-3 text-center">
             The news that gives you business ideas
           </p>
