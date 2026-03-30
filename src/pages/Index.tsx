@@ -23,18 +23,9 @@ const categories = [
 const Index = () => {
   return (
     <div className="min-h-screen">
-      {/* Nav */}
+      {/* Header - just logo area */}
       <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-center">
-          <div className="relative w-full max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder="Search ideas..."
-              className="w-full pl-9 pr-4 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground"
-            />
-          </div>
-        </div>
+        <div className="max-w-7xl mx-auto px-6 py-2" />
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-6">
