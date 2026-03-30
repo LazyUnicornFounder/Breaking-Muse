@@ -54,7 +54,8 @@ serve(async (req) => {
     }
 
     // Find categories that need more ideas
-    const categoriesToFill = CATEGORIES.filter(
+    const pool = requestedCategories || CATEGORIES;
+    const categoriesToFill = pool.filter(
       (cat) => (existingCounts[cat] || 0) < IDEAS_PER_CATEGORY
     );
 
