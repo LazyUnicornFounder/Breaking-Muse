@@ -131,13 +131,19 @@ serve(async (req) => {
           .replace(/,\s*\}/g, '}')
           .replace(/[\x00-\x1f]/g, ' ');
         const parsed = JSON.parse(cleanedJson);
+
+        const isValidRedditPost = (url: string) =>
+          url?.includes('reddit.com/r/') && url?.includes('/comments/');
+
         const complaintItems = parsed
-          .filter((item: { complaint: string }) => item.complaint && !item.complaint.toLowerCase().includes('youtube'))
-          .map((item: { complaint: string }) => {
+          .filter((item: { complaint: string; url?: string }) => item.complaint && !item.complaint.toLowerCase().includes('youtube'))
+          .map((item: { complaint: string; url?: string }) => {
             const complaint = item.complaint.replace(/\[\d+\]/g, '').trim();
             return {
               complaint,
-              url: `https://www.reddit.com/search/?q=${encodeURIComponent(complaint)}&sort=new`,
+              url: isValidRedditPost(item.url || '')
+                ? item.url!
+                : `https://www.reddit.com/search/?q=${encodeURIComponent(complaint)}&sort=new`,
             };
           })
           .slice(0, needed);
