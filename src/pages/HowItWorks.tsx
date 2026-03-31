@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Newspaper, Cpu, Lightbulb, Sparkles, Rocket } from "lucide-react";
 import logo from "@/assets/logo.png";
 
-const steps = [
+const steps: { icon: typeof Newspaper; title: string; description: ReactNode }[] = [
   {
     icon: Newspaper,
     title: "We scan the news",
