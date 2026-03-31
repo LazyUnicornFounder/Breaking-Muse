@@ -50,6 +50,9 @@ const MainNav = () => {
 
       {mobileOpen && (
         <nav className="md:hidden flex flex-col gap-3 py-4 border-b border-border">
+          <Link to="/muse-reddit" onClick={() => setMobileOpen(false)} className="text-sm font-semibold text-foreground hover:text-foreground/70 transition-colors">
+            Muse Reddit
+          </Link>
           <Link to="/how-it-works" onClick={() => setMobileOpen(false)} className="text-sm font-semibold text-foreground hover:text-foreground/70 transition-colors">
             How it works
           </Link>
