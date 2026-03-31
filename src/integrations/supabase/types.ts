@@ -50,6 +50,63 @@ export type Database = {
         }
         Relationships: []
       }
+      reddit_ideas: {
+        Row: {
+          created_at: string | null
+          date: string
+          description: string
+          id: string
+          is_featured: boolean | null
+          source_event: string
+          source_url: string
+          tag: string
+          title: string
+        }
+        Insert: {
+          created_at?: string | null
+          date: string
+          description: string
+          id?: string
+          is_featured?: boolean | null
+          source_event: string
+          source_url: string
+          tag: string
+          title: string
+        }
+        Update: {
+          created_at?: string | null
+          date?: string
+          description?: string
+          id?: string
+          is_featured?: boolean | null
+          source_event?: string
+          source_url?: string
+          tag?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      reddit_ideas_errors: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          error: string | null
+          id: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          error?: string | null
+          id?: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          error?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

@@ -22,7 +22,6 @@ serve(async (req) => {
   }
 
   try {
-    // Accept optional category subset to avoid timeouts
     let requestedCategories: string[] | null = null;
     try {
       const body = await req.json();
@@ -30,6 +29,7 @@ serve(async (req) => {
         requestedCategories = body.categories;
       }
     } catch { /* no body or invalid JSON, use all categories */ }
+
     const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
     if (!PERPLEXITY_API_KEY) throw new Error("PERPLEXITY_API_KEY not configured");
 
@@ -44,9 +44,8 @@ serve(async (req) => {
 
     const ammanDate = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Amman" });
 
-    // Check existing idea counts per category for today
     const { data: existingIdeas } = await supabase
-      .from("daily_ideas")
+      .from("reddit_ideas")
       .select("tag, id")
       .eq("date", ammanDate);
 
@@ -55,7 +54,6 @@ serve(async (req) => {
       existingCounts[row.tag] = (existingCounts[row.tag] || 0) + 1;
     }
 
-    // Find categories that need more ideas
     const pool = requestedCategories || CATEGORIES;
     const categoriesToFill = pool.filter(
       (cat) => (existingCounts[cat] || 0) < IDEAS_PER_CATEGORY
@@ -63,12 +61,12 @@ serve(async (req) => {
 
     if (categoriesToFill.length === 0) {
       return new Response(
-        JSON.stringify({ message: "All categories have 10 ideas for today", date: ammanDate }),
+        JSON.stringify({ message: "All categories have 10 reddit ideas for today", date: ammanDate }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    console.log(`Generating ideas for ${ammanDate}, categories needing ideas: ${categoriesToFill.join(", ")}`);
+    console.log(`Generating reddit ideas for ${ammanDate}, categories needing ideas: ${categoriesToFill.join(", ")}`);
 
     const allIdeas: Array<{
       date: string;
@@ -86,10 +84,10 @@ serve(async (req) => {
         (r) => r.tag === category
       );
 
-      console.log(`${category}: need ${needed} more ideas`);
+      console.log(`${category}: need ${needed} more reddit ideas`);
 
-      // Step 1: Fetch news via Perplexity
       try {
+        // Step 1: Fetch Reddit complaints via Perplexity
         const perplexityRes = await fetch("https://api.perplexity.ai/chat/completions", {
           method: "POST",
           headers: {
@@ -101,11 +99,11 @@ serve(async (req) => {
             messages: [
               {
                 role: "system",
-                content: "You are a global news researcher. Return ONLY a JSON array of objects with a 'headline' field. No other text.",
+                content: "You are a Reddit researcher. Return ONLY a JSON array of objects with a 'complaint' field. No other text.",
               },
               {
                 role: "user",
-                content: `Find ${needed} important and diverse news stories from today or the last 24 hours STRICTLY about "${category}". The stories must be specifically and directly about ${category} — do NOT include unrelated topics. Include stories from around the world — mix sources from different continents and countries (Europe, Asia, Africa, Latin America, Middle East, etc.), not just the United States. Return as JSON array: [{"headline": "..."}]`,
+                content: `Find ${needed} real complaints or problems people are posting about on Reddit in the "${category}" category in the last 24 hours. Focus on pain points, frustrations, and unmet needs. Return as JSON array: [{"complaint": "..."}]`,
               },
             ],
             search_recency_filter: "day",
@@ -114,6 +112,7 @@ serve(async (req) => {
 
         if (!perplexityRes.ok) {
           console.error(`Perplexity error for ${category}: ${perplexityRes.status}`);
+          await supabase.from("reddit_ideas_errors").insert({ category, error: `Perplexity HTTP ${perplexityRes.status}` });
           continue;
         }
 
@@ -121,28 +120,31 @@ serve(async (req) => {
         const content = perplexityData.choices?.[0]?.message?.content || "";
         console.log(`Perplexity raw for ${category}:`, content.substring(0, 200));
         const jsonMatch = content.match(/\[[\s\S]*\]/);
-        if (!jsonMatch) { console.error(`No JSON array found for ${category}`); continue; }
+        if (!jsonMatch) {
+          console.error(`No JSON array found for ${category}`);
+          await supabase.from("reddit_ideas_errors").insert({ category, error: "No JSON array in Perplexity response" });
+          continue;
+        }
 
-        // Clean common JSON issues: trailing commas, control chars
         const cleanedJson = jsonMatch[0]
           .replace(/,\s*\]/g, ']')
           .replace(/,\s*\}/g, '}')
           .replace(/[\x00-\x1f]/g, ' ');
         const parsed = JSON.parse(cleanedJson);
-        const newsItems = parsed
-          .filter((item: { headline: string }) => !item.headline.toLowerCase().includes('youtube'))
-          .map((item: { headline: string }) => {
-            const headline = item.headline.replace(/\[\d+\]/g, '').trim();
+        const complaintItems = parsed
+          .filter((item: { complaint: string }) => item.complaint && !item.complaint.toLowerCase().includes('youtube'))
+          .map((item: { complaint: string }) => {
+            const complaint = item.complaint.replace(/\[\d+\]/g, '').trim();
             return {
-              headline,
-              url: `https://www.google.com/search?q=${encodeURIComponent(headline)}+news`,
+              complaint,
+              url: `https://www.reddit.com/search/?q=${encodeURIComponent(complaint)}&sort=new`,
             };
           })
           .slice(0, needed);
 
-        // Step 2: Generate ideas from news
-        const newsPrompt = newsItems
-          .map((n: { headline: string; url: string }, i: number) => `${i + 1}. "${n.headline}"`)
+        // Step 2: Generate ideas from complaints
+        const complaintsPrompt = complaintItems
+          .map((n: { complaint: string; url: string }, i: number) => `${i + 1}. "${n.complaint}"`)
           .join("\n");
 
         const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -156,11 +158,11 @@ serve(async (req) => {
             messages: [
               {
                 role: "system",
-                content: "You are a startup idea namer. Given news stories, invent one startup idea per story. Return ONLY a valid JSON array.",
+                content: "You are a startup idea generator. Given Reddit complaints, invent one startup idea per complaint that directly solves that problem. Return ONLY a valid JSON array.",
               },
               {
                 role: "user",
-                content: `Given these ${category} news stories from today:\n${newsPrompt}\n\nFor EACH story, generate one startup idea. The idea MUST be a product or service directly relevant to the "${category}" category — not just inspired by the news topic.\n\nRules:\n- \"title\": 2-4 words, descriptive and self-explanatory. Someone should instantly know what it does from the name alone (e.g. \"FarmInventory\", \"RentTracker\", \"ClinicQueue\"). No abstract or clever wordplay.\n- \"description\": one sentence, 10 words max, plain english. Never start with \"We\", \"This app\", \"Our\", or \"This platform\".\n- \"source_event\": the news headline (copy it exactly)\n- \"is_featured\": false\n- Do NOT include source_url in your response\n- CRITICAL: Every idea MUST use a DIFFERENT news source. Never repeat the same headline or source. Every title must be unique — no duplicates.\n\nReturn a JSON array: [{"title": "...", "description": "...", "source_event": "...", "is_featured": false}]`,
+                content: `Given these ${category} Reddit complaints:\n${complaintsPrompt}\n\nFor EACH complaint, generate one startup idea. Rules:\n- "title": 2-4 words, descriptive and self-explanatory (e.g. "RentTracker", "ClinicQueue"). No abstract wordplay.\n- "description": one sentence, 10 words max, plain english. Never start with "We", "This app", "Our", or "This platform".\n- "source_event": the Reddit complaint (copy it exactly)\n- "is_featured": false\n- Do NOT include source_url in your response\n- Every idea must use a different complaint. No duplicate titles.\n\nReturn a JSON array: [{"title": "...", "description": "...", "source_event": "...", "is_featured": false}]`,
               },
             ],
           }),
@@ -168,21 +170,23 @@ serve(async (req) => {
 
         if (!aiRes.ok) {
           console.error(`AI error for ${category}: ${aiRes.status}`);
+          await supabase.from("reddit_ideas_errors").insert({ category, error: `AI HTTP ${aiRes.status}` });
           continue;
         }
 
         const aiData = await aiRes.json();
         const aiContent = aiData.choices?.[0]?.message?.content || "";
         const aiMatch = aiContent.match(/\[[\s\S]*\]/);
-        if (!aiMatch) continue;
+        if (!aiMatch) {
+          await supabase.from("reddit_ideas_errors").insert({ category, error: "No JSON array in AI response" });
+          continue;
+        }
 
         const ideas = JSON.parse(aiMatch[0]);
         let featuredSet = hasFeatured;
 
-        // Deduplicate: track used titles and sources across all ideas
         const usedTitles = new Set(allIdeas.map(i => i.title.toLowerCase()));
         const usedSources = new Set(allIdeas.map(i => i.source_event.toLowerCase()));
-        // Also include existing DB ideas in dedup sets
         for (const row of existingIdeas || []) {
           usedTitles.add((row as any).title?.toLowerCase?.() || "");
           usedSources.add((row as any).source_event?.toLowerCase?.() || "");
@@ -192,7 +196,7 @@ serve(async (req) => {
         for (let i = 0; i < ideas.length; i++) {
           if (added >= needed) break;
           const idea = ideas[i];
-          const newsItem = newsItems[i] || newsItems[newsItems.length - 1];
+          const complaintItem = complaintItems[i] || complaintItems[complaintItems.length - 1];
           const title = (idea.title || "").trim();
           const source = (idea.source_event || idea.sourceEvent || "").trim();
           if (usedTitles.has(title.toLowerCase()) || usedSources.has(source.toLowerCase())) continue;
@@ -204,13 +208,14 @@ serve(async (req) => {
             title,
             description: idea.description,
             source_event: source,
-            source_url: newsItem.url,
+            source_url: complaintItem.url,
             is_featured: !featuredSet ? (featuredSet = true, true) : false,
           });
           added++;
         }
       } catch (e) {
         console.error(`Error for ${category}:`, e);
+        await supabase.from("reddit_ideas_errors").insert({ category, error: e instanceof Error ? e.message : String(e) });
       }
 
       await new Promise((r) => setTimeout(r, 500));
@@ -218,7 +223,7 @@ serve(async (req) => {
 
     // Step 3: Insert into database
     if (allIdeas.length > 0) {
-      const { error } = await supabase.from("daily_ideas").upsert(allIdeas, {
+      const { error } = await supabase.from("reddit_ideas").upsert(allIdeas, {
         onConflict: "date,tag,title",
       });
 
@@ -228,7 +233,7 @@ serve(async (req) => {
       }
     }
 
-    console.log(`Generated ${allIdeas.length} ideas for ${ammanDate}`);
+    console.log(`Generated ${allIdeas.length} reddit ideas for ${ammanDate}`);
 
     return new Response(
       JSON.stringify({
@@ -240,7 +245,7 @@ serve(async (req) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (e) {
-    console.error("generate-ideas error:", e);
+    console.error("generate-reddit-ideas error:", e);
     return new Response(
       JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
