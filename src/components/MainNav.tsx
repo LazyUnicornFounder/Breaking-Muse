@@ -14,9 +14,6 @@ const MainNav = () => {
           <img src={logo} alt="Breaking Muse" className="h-40 md:h-48 w-auto drop-shadow-lg" />
         </Link>
         <div className="flex items-center justify-center gap-6">
-          <Link to="/muse-reddit" className="text-sm font-semibold text-foreground hover:text-foreground/70 transition-colors">
-            Muse Reddit
-          </Link>
           <Link to="/how-it-works" className="text-sm font-semibold text-foreground hover:text-foreground/70 transition-colors">
             How it works
           </Link>
@@ -50,9 +47,6 @@ const MainNav = () => {
 
       {mobileOpen && (
         <nav className="md:hidden flex flex-col gap-3 py-4 border-b border-border">
-          <Link to="/muse-reddit" onClick={() => setMobileOpen(false)} className="text-sm font-semibold text-foreground hover:text-foreground/70 transition-colors">
-            Muse Reddit
-          </Link>
           <Link to="/how-it-works" onClick={() => setMobileOpen(false)} className="text-sm font-semibold text-foreground hover:text-foreground/70 transition-colors">
             How it works
           </Link>
