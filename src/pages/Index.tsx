@@ -181,8 +181,12 @@ const Index = () => {
           })}
         </div>
 
-        {!isLoading && filteredIdeas.length === 0 && (
+        {!isLoading && !data && (
           <p className="text-center text-muted-foreground py-12">No ideas found.</p>
+        )}
+
+        {!isLoading && data && filteredIdeas.length === 0 && (
+          <p className="text-center text-muted-foreground py-12">No ideas match your search.</p>
         )}
 
         {/* Archive link */}
