@@ -99,11 +99,11 @@ serve(async (req) => {
             messages: [
               {
                 role: "system",
-                content: "You are a Reddit researcher. Return ONLY a JSON array of objects with a 'complaint' field. No other text.",
+                content: "You are a Reddit researcher. Return ONLY a JSON array of objects with 'complaint' and 'url' fields. No other text. URLs must be direct Reddit post links (reddit.com/r/subreddit/comments/...).",
               },
               {
                 role: "user",
-                content: `Find ${needed} real complaints or problems people are posting about on Reddit in the "${category}" category in the last 24 hours. Focus on pain points, frustrations, and unmet needs. Return as JSON array: [{"complaint": "..."}]`,
+                content: `Find ${needed} real complaints or problems people are posting about on Reddit in the "${category}" category in the last 24 hours. Focus on pain points, frustrations, and unmet needs. Return as JSON array: [{"complaint": "...", "url": "https://reddit.com/r/..."}]`,
               },
             ],
             search_recency_filter: "day",
