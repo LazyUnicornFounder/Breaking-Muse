@@ -23,7 +23,7 @@ const App = () => (
           <Route path="/archive" element={<Archive />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/about" element={<About />} />
-          <Route path="/muse-reddit" element={<MuseReddit />} />
+          {/* <Route path="/muse-reddit" element={<MuseReddit />} /> */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
