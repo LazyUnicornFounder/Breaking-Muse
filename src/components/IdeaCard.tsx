@@ -172,6 +172,22 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
                                 <span className="font-medium text-card-foreground">Source:</span> {prev.sourceEvent}
                               </p>
                             ) : null}
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                const text = `${prev.title}: ${prev.description}`;
+                                navigator.clipboard.writeText(text);
+                                toast("Idea copied! Redirecting to lazyunicorn.ai to launch your idea…", { duration: 3000 });
+                                setTimeout(() => {
+                                  window.open("https://www.lazyunicorn.ai/lazy-launch", "_blank");
+                                }, 1500);
+                              }}
+                              className="mt-2 flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-semibold rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer"
+                            >
+                              <Rocket className="w-3 h-3" />
+                              Launch it
+                            </button>
                           </div>
                         </div>
                       </div>
