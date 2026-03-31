@@ -21,7 +21,7 @@ interface IdeaCardProps {
   historyLabel?: string;
 }
 
-const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, previousIdeas = [], historyLabel = "More startup ideas from today's news" }: IdeaCardProps) => {
+const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, previousIdeas = [], historyLabel }: IdeaCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [expandedIdea, setExpandedIdea] = useState<number | null>(null);
   const [showLaunchPopup, setShowLaunchPopup] = useState(false);
@@ -137,7 +137,7 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
               <div className="px-5 pb-4 pt-1 border-t border-dashed border-border">
                 <div className="flex items-center gap-1.5 mb-2">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                    {historyLabel}
+                    {historyLabel || `More ${tag} startup ideas from today's news`}
                   </span>
                 </div>
                 <div className="space-y-1">
