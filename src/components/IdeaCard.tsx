@@ -80,21 +80,36 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
             {description}
           </p>
 
-          <div className="pt-3 border-t border-border">
-            {sourceUrl ? (
-              <a
-                href={sourceUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs text-muted-foreground/60 hover:text-primary transition-colors"
-              >
-                <span className="font-medium text-muted-foreground/70">Source:</span> {sourceEvent} ↗
-              </a>
-            ) : (
-              <p className="text-xs text-muted-foreground/60">
-                <span className="font-medium text-muted-foreground/70">Source:</span> {sourceEvent}
-              </p>
-            )}
+          <div className="pt-3 border-t border-border flex items-center justify-between gap-2">
+            <div className="min-w-0">
+              {sourceUrl ? (
+                <a
+                  href={sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-muted-foreground/60 hover:text-primary transition-colors"
+                >
+                  <span className="font-medium text-muted-foreground/70">Source:</span> {sourceEvent} ↗
+                </a>
+              ) : (
+                <p className="text-xs text-muted-foreground/60">
+                  <span className="font-medium text-muted-foreground/70">Source:</span> {sourceEvent}
+                </p>
+              )}
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                const text = `${title}: ${description}`;
+                navigator.clipboard.writeText(text);
+                toast.success("Idea copied!");
+                window.open("https://www.lazyunicorn.ai/lazy-launch", "_blank");
+              }}
+              className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer"
+            >
+              <Rocket className="w-3.5 h-3.5" />
+              Launch it
+            </button>
           </div>
         </div>
 
