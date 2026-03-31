@@ -136,7 +136,7 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
             <div className="overflow-hidden">
               <div className="px-5 pb-4 pt-1 border-t border-dashed border-border">
                 <div className="flex items-center gap-1.5 mb-2">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                  <span className="text-[11px] font-extrabold uppercase tracking-widest text-primary">
                     {historyLabel || `More ${tag} startup ideas from today's news`}
                   </span>
                 </div>
