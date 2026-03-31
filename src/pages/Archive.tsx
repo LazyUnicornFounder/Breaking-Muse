@@ -14,6 +14,7 @@ const Archive = () => {
   });
 
   const [expandedDay, setExpandedDay] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Auto-expand first day when data loads
   if (archiveDays.length > 0 && expandedDay === null) {
