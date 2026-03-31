@@ -114,12 +114,7 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                const text = `${title}: ${description}`;
-                navigator.clipboard.writeText(text);
-                toast("Idea copied! Redirecting to lazyunicorn.ai to launch your idea…", { duration: 3000 });
-                setTimeout(() => {
-                  window.open("https://www.lazyunicorn.ai/lazy-launch", "_blank");
-                }, 1500);
+                handleLaunch(title, description);
               }}
               className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer"
             >
