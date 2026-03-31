@@ -52,7 +52,11 @@ const Index = () => {
   const featured = data?.featured || [];
   const allByCategory = data?.all || {};
 
-  const filteredIdeas = useMemo(() => {
+  const availableCategories = useMemo(() => {
+    const cats = Object.keys(allByCategory).sort();
+    return ["All", ...cats];
+  }, [allByCategory]);
+
     const allIdeas = Object.values(allByCategory).flat();
 
     let ideas = activeCategory !== "All"
