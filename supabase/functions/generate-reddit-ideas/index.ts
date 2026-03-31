@@ -202,7 +202,7 @@ serve(async (req) => {
         for (let i = 0; i < ideas.length; i++) {
           if (added >= needed) break;
           const idea = ideas[i];
-          const complaintItem = complaintItems[i] || complaintItems[complaintItems.length - 1];
+          const complaintItem = complaintItems[i] || complaintItems[complaintItems.length - 1] || { complaint: "", url: "" };
           const title = (idea.title || "").trim();
           const source = (idea.source_event || idea.sourceEvent || "").trim();
           if (usedTitles.has(title.toLowerCase()) || usedSources.has(source.toLowerCase())) continue;
