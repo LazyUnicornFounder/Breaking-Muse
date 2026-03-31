@@ -105,7 +105,7 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <header className="max-w-7xl mx-auto px-6 pt-4 grid grid-cols-3 items-center">
-        <img src={logo} alt="Breaking Muse" className="h-20 md:h-24 w-auto drop-shadow-lg" />
+        <img src={logo} alt="Breaking Muse" className="h-40 md:h-48 w-auto drop-shadow-lg" />
         <div className="flex items-center justify-center gap-6">
           <Link to="/how-it-works" className="text-sm font-semibold text-foreground hover:text-foreground/70 transition-colors">
             How it works
