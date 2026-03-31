@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, ChevronDown, ChevronRight, RefreshCw } from "lucide-react";
+import { ChevronDown, ChevronRight, RefreshCw } from "lucide-react";
 import { fetchArchiveIdeas, type IdeaEntry } from "@/lib/ideas";
 import IdeaCard from "@/components/IdeaCard";
-import logo from "@/assets/logo.png";
+import MainNav from "@/components/MainNav";
 
 const Archive = () => {
   const { data: archiveDays = [], isLoading } = useQuery({
