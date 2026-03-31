@@ -217,7 +217,7 @@ const Index = () => {
         )}
 
         {/* About section */}
-        <div className="mt-16 mb-8 max-w-2xl mx-auto text-center space-y-4">
+        <div id="about" className="mt-16 mb-8 max-w-2xl mx-auto text-center space-y-4">
           <h2 className="text-2xl md:text-3xl font-semibold text-foreground">About</h2>
           <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
             The best startups ride waves of change. A new regulation, a viral trend, a technological breakthrough — these events create windows of opportunity that close fast. Breaking Muse helps you spot those windows the moment they open, so you can move before everyone else catches on.
