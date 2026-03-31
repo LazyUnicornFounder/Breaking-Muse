@@ -6,7 +6,7 @@ import { fetchIdeasForDate } from "@/lib/ideas";
 import { supabase } from "@/integrations/supabase/client";
 import { Search, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
-import logo from "@/assets/logo.png";
+import MainNav from "@/components/MainNav";
 
 const categories = [
   "All", "Architecture", "Art", "Boxing", "Cars", "Coffee", "Construction",
