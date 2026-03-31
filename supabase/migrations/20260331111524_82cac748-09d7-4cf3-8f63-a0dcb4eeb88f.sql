@@ -1,0 +1,1 @@
+DELETE FROM public.reddit_ideas WHERE date = to_char(now() AT TIME ZONE 'Asia/Amman', 'YYYY-MM-DD');
