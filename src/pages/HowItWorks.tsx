@@ -22,6 +22,12 @@ const steps = [
       "From hundreds of raw candidates, we surface the top ideas per category. Featured ideas are selected for originality, timeliness, and market potential. Every idea links back to the source article so you can dig deeper and validate the opportunity yourself.",
   },
   {
+    icon: Rocket,
+    title: "Launch it instantly",
+    description:
+      "Found an idea you love? Hit the \"Launch it\" button on any card. It copies the idea to your clipboard and sends you straight to LazyUnicorn.ai, where you can turn the concept into a real product — landing page, name, plan, and all — in minutes.",
+  },
+  {
     icon: Sparkles,
     title: "Fresh batch every day",
     description:
