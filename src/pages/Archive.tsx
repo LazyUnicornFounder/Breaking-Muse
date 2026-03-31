@@ -49,7 +49,21 @@ const Archive = () => {
 
       <main className="max-w-7xl mx-auto px-6 py-8">
         <h1 className="font-display text-2xl text-card-foreground mb-1">Idea Archive</h1>
-        <p className="text-sm text-muted-foreground mb-8">Previous days' business ideas from the news</p>
+        <p className="text-sm text-muted-foreground mb-6">Previous days' business ideas from the news</p>
+
+        {/* Search */}
+        <div className="flex justify-center mb-8">
+          <div className="relative w-full max-w-md">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search ideas in the archive..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-9 pr-4 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground"
+            />
+          </div>
+        </div>
 
         {isLoading && (
           <div className="flex justify-center py-16">
