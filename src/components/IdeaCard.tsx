@@ -98,69 +98,71 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
         </div>
 
         {/* History drawer — slides open on hover */}
-        <div
-          className="overflow-hidden transition-all duration-300 ease-out"
-          style={{
-            maxHeight: isHovered && history.length > 0 ? "2000px" : "0px",
-            opacity: isHovered ? 1 : 0,
-          }}
-        >
-          <div className="px-5 pb-4 pt-1 border-t border-dashed border-border">
-            <div className="flex items-center gap-1.5 mb-2">
-              <Clock className="w-3 h-3 text-muted-foreground" />
-              <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-                {historyLabel}
-              </span>
-            </div>
-            <div className="space-y-1">
-              {history.map((prev, i) => (
-                <div
-                  key={i}
-                  onMouseEnter={() => setExpandedIdea(i)}
-                  onMouseLeave={() => setExpandedIdea(null)}
-                >
-                  <div
-                    className="w-full flex items-center justify-between gap-2 py-1.5 px-2 -mx-2 rounded-md hover:bg-muted/50 transition-colors text-left group/prev cursor-default"
-                  >
-                    <p className="text-xs text-muted-foreground truncate group-hover/prev:text-foreground transition-colors">
-                      {prev.title}
-                    </p>
-                    <span className="text-[10px] text-muted-foreground/60 whitespace-nowrap">{historyLabel === "Previous ideas today" ? "today" : ""}</span>
-                  </div>
-
-                  {/* Expanded on hover — no repeated title */}
-                  <div
-                    className="overflow-hidden transition-all duration-200 ease-out"
-                    style={{
-                      maxHeight: expandedIdea === i ? "200px" : "0px",
-                      opacity: expandedIdea === i ? 1 : 0,
-                    }}
-                  >
-                    <div className="ml-2 pl-3 border-l-2 border-primary/30 py-2 mb-1">
-                      <p className="text-[11px] text-muted-foreground leading-relaxed mb-2">
-                        {prev.description}
-                      </p>
-                      {prev.sourceUrl ? (
-                        <a
-                          href={prev.sourceUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[10px] text-muted-foreground hover:text-primary transition-colors"
-                        >
-                          <span className="font-medium text-card-foreground">Source:</span> {prev.sourceEvent} ↗
-                        </a>
-                      ) : prev.sourceEvent ? (
-                        <p className="text-[10px] text-muted-foreground">
-                          <span className="font-medium text-card-foreground">Source:</span> {prev.sourceEvent}
-                        </p>
-                      ) : null}
-                    </div>
-                  </div>
+        {history.length > 0 && (
+          <div
+            className="grid transition-[grid-template-rows] duration-300 ease-out"
+            style={{
+              gridTemplateRows: isHovered ? "1fr" : "0fr",
+            }}
+          >
+            <div className="overflow-hidden">
+              <div className="px-5 pb-4 pt-1 border-t border-dashed border-border">
+                <div className="flex items-center gap-1.5 mb-2">
+                  <Clock className="w-3 h-3 text-muted-foreground" />
+                  <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+                    {historyLabel}
+                  </span>
                 </div>
-              ))}
+                <div className="space-y-1">
+                  {history.map((prev, i) => (
+                    <div key={i}>
+                      <button
+                        type="button"
+                        onClick={() => setExpandedIdea(expandedIdea === i ? null : i)}
+                        className="w-full flex items-center justify-between gap-2 py-1.5 px-2 -mx-2 rounded-md hover:bg-muted/50 transition-colors text-left group/prev cursor-pointer"
+                      >
+                        <p className="text-xs text-muted-foreground truncate group-hover/prev:text-foreground transition-colors">
+                          {prev.title}
+                        </p>
+                        <span className="text-[10px] text-muted-foreground/60 whitespace-nowrap">{historyLabel === "Previous ideas today" ? "today" : ""}</span>
+                      </button>
+
+                      {/* Expanded detail */}
+                      <div
+                        className="grid transition-[grid-template-rows] duration-200 ease-out"
+                        style={{
+                          gridTemplateRows: expandedIdea === i ? "1fr" : "0fr",
+                        }}
+                      >
+                        <div className="overflow-hidden">
+                          <div className="ml-2 pl-3 border-l-2 border-primary/30 py-2 mb-1">
+                            <p className="text-[11px] text-muted-foreground leading-relaxed mb-2">
+                              {prev.description}
+                            </p>
+                            {prev.sourceUrl ? (
+                              <a
+                                href={prev.sourceUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[10px] text-muted-foreground hover:text-primary transition-colors"
+                              >
+                                <span className="font-medium text-card-foreground">Source:</span> {prev.sourceEvent} ↗
+                              </a>
+                            ) : prev.sourceEvent ? (
+                              <p className="text-[10px] text-muted-foreground">
+                                <span className="font-medium text-card-foreground">Source:</span> {prev.sourceEvent}
+                              </p>
+                            ) : null}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
