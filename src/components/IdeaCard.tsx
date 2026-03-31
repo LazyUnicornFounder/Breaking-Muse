@@ -32,10 +32,10 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
     setShowLaunchPopup(true);
     setTimeout(() => {
       window.open("https://www.lazyunicorn.ai/lazy-launch", "_blank");
-    }, 2000);
+    }, 3000);
     setTimeout(() => {
       setShowLaunchPopup(false);
-    }, 3000);
+    }, 5000);
   }, []);
 
   return (
