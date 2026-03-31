@@ -1,30 +1,9 @@
-import { Link } from "react-router-dom";
-import logo from "@/assets/logo.png";
+import MainNav from "@/components/MainNav";
 
 const About = () => {
   return (
     <div className="min-h-screen">
-      <header className="max-w-7xl mx-auto px-6 pt-4 grid grid-cols-3 items-center">
-        <Link to="/">
-          <img src={logo} alt="Breaking Muse" className="h-40 md:h-48 w-auto drop-shadow-lg" />
-        </Link>
-        <div className="flex items-center justify-center gap-6">
-          <Link to="/how-it-works" className="text-sm font-semibold text-foreground hover:text-foreground/70 transition-colors">
-            How it works
-          </Link>
-          <Link to="/archive" className="text-sm font-semibold text-foreground hover:text-foreground/70 transition-colors">
-            Archive
-          </Link>
-          <Link to="/about" className="text-sm font-semibold text-foreground hover:text-foreground/70 transition-colors">
-            About
-          </Link>
-        </div>
-        <div className="flex justify-end">
-          <a href="https://www.producthunt.com/products/breaking-muse?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-breaking-muse" target="_blank" rel="noopener noreferrer" className="shrink-0">
-            <img alt="Breaking Muse - Turn today's news into your next startup idea. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1111765&theme=dark&t=1774937954258" />
-          </a>
-        </div>
-      </header>
+      <MainNav />
 
       <main className="max-w-2xl mx-auto px-6 py-12 space-y-6">
         <h1 className="text-3xl md:text-4xl font-semibold text-foreground text-center">About</h1>

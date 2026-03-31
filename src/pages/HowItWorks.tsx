@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Newspaper, Cpu, Lightbulb, Sparkles, Rocket } from "lucide-react";
-import logo from "@/assets/logo.png";
+import { Newspaper, Cpu, Lightbulb, Sparkles, Rocket } from "lucide-react";
+import MainNav from "@/components/MainNav";
 
 const steps: { icon: typeof Newspaper; title: string; description: ReactNode }[] = [
   {
@@ -43,21 +43,11 @@ const steps: { icon: typeof Newspaper; title: string; description: ReactNode }[]
 const HowItWorks = () => {
   return (
     <div className="min-h-screen bg-background">
+      <MainNav />
       <main className="max-w-3xl mx-auto px-6 py-12">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to ideas
-        </Link>
-
-        <div className="flex items-center gap-3 mb-6">
-          <img src={logo} alt="Breaking Muse" className="h-16 w-auto" />
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
-            How It Works
-          </h1>
-        </div>
+        <h1 className="text-3xl font-bold tracking-tight text-foreground mb-4">
+          How It Works
+        </h1>
 
         <p className="text-muted-foreground text-lg leading-relaxed mb-10">
           Breaking Muse turns today's headlines into tomorrow's startups. Here's
