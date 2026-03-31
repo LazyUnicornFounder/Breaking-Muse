@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Twitter } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const MainNav = () => {
@@ -24,7 +24,11 @@ const MainNav = () => {
             About
           </Link>
         </div>
-        <div className="flex justify-end" />
+        <div className="flex justify-end">
+          <a href="https://x.com/SaadSahawneh" target="_blank" rel="noopener noreferrer" className="text-foreground hover:text-foreground/70 transition-colors">
+            <Twitter className="w-5 h-5" />
+          </a>
+        </div>
       </div>
 
       {/* Mobile */}
