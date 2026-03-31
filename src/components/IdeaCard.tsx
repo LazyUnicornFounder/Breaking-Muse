@@ -117,9 +117,9 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
                 e.stopPropagation();
                 handleLaunch(title, description);
               }}
-              className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer"
+              className="shrink-0 flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-semibold rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer"
             >
-              <Rocket className="w-3.5 h-3.5" />
+              <Rocket className="w-3 h-3" />
               Launch it
             </button>
           </div>
