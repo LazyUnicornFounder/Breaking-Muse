@@ -106,7 +106,13 @@ const Index = () => {
     <div className="min-h-screen">
       <header className="max-w-7xl mx-auto px-6 pt-4 flex items-center justify-between">
         <img src={logo} alt="Breaking Muse" className="h-20 md:h-24 w-auto drop-shadow-lg" />
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4">
+          <Link to="/how-it-works" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            How it works
+          </Link>
+          <Link to="/archive" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            Archive
+          </Link>
           <a href="https://www.producthunt.com/products/breaking-muse?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-breaking-muse" target="_blank" rel="noopener noreferrer" className="shrink-0">
             <img alt="Breaking Muse - Product Hunt" width="100" height="22" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1111765&theme=light&t=1774899974448" />
           </a>
@@ -119,16 +125,6 @@ const Index = () => {
           <p className="text-3xl md:text-5xl text-foreground tracking-tight font-semibold text-center" style={{ fontFamily: "'DM Sans', sans-serif" }}>
             Turn today's news into your next startup idea.
           </p>
-        </div>
-
-        {/* Nav links */}
-        <div className="flex justify-center gap-6 mb-4">
-          <Link to="/how-it-works" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            How it works
-          </Link>
-          <Link to="/archive" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            Archive
-          </Link>
         </div>
         {/* Categories */}
         <div className="relative z-10 flex gap-1 overflow-x-auto justify-center mb-3 flex-wrap">
