@@ -8,6 +8,7 @@ import Archive from "./pages/Archive.tsx";
 import HowItWorks from "./pages/HowItWorks.tsx";
 import About from "./pages/About.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import MuseReddit from "./pages/MuseReddit.tsx";
 
 const queryClient = new QueryClient();
 
