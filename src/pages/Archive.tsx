@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, ChevronRight, RefreshCw } from "lucide-react";
+import { ChevronDown, ChevronRight, RefreshCw, Search } from "lucide-react";
 import { fetchArchiveIdeas, type IdeaEntry } from "@/lib/ideas";
 import IdeaCard from "@/components/IdeaCard";
 import MainNav from "@/components/MainNav";
