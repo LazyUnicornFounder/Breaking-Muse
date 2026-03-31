@@ -224,7 +224,7 @@ const Index = () => {
           </p>
           <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
             Breaking Muse is associated with{" "}
-            <a href="https://lazyunicorn.app" target="_blank" rel="noopener noreferrer" className="text-foreground underline hover:text-foreground/70 transition-colors">
+            <a href="https://lazyunicorn.ai" target="_blank" rel="noopener noreferrer" className="text-foreground underline hover:text-foreground/70 transition-colors">
               Lazy Unicorn
             </a>
             , which helps you launch your autonomous business on{" "}
