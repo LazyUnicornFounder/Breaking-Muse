@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { ArrowUpRight, Clock, Rocket } from "lucide-react";
-import { toast } from "sonner";
+import { useState, useCallback } from "react";
+import { createPortal } from "react-dom";
+import { ArrowUpRight, Clock, Rocket, Check } from "lucide-react";
 
 interface PrevIdea {
   title: string;
@@ -23,7 +23,20 @@ interface IdeaCardProps {
 const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, previousIdeas = [], historyLabel = "Previous ideas today" }: IdeaCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [expandedIdea, setExpandedIdea] = useState<number | null>(null);
+  const [showLaunchPopup, setShowLaunchPopup] = useState(false);
   const history = previousIdeas;
+
+  const handleLaunch = useCallback((ideaTitle: string, ideaDesc: string) => {
+    const text = `${ideaTitle}: ${ideaDesc}`;
+    navigator.clipboard.writeText(text);
+    setShowLaunchPopup(true);
+    setTimeout(() => {
+      window.open("https://www.lazyunicorn.ai/lazy-launch", "_blank");
+    }, 2000);
+    setTimeout(() => {
+      setShowLaunchPopup(false);
+    }, 3000);
+  }, []);
 
   return (
     <div
@@ -101,12 +114,7 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                const text = `${title}: ${description}`;
-                navigator.clipboard.writeText(text);
-                toast("Idea copied! Redirecting to lazyunicorn.ai to launch your idea…", { duration: 3000 });
-                setTimeout(() => {
-                  window.open("https://www.lazyunicorn.ai/lazy-launch", "_blank");
-                }, 1500);
+                handleLaunch(title, description);
               }}
               className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer"
             >
@@ -176,12 +184,7 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
                               type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                const text = `${prev.title}: ${prev.description}`;
-                                navigator.clipboard.writeText(text);
-                                toast("Idea copied! Redirecting to lazyunicorn.ai to launch your idea…", { duration: 3000 });
-                                setTimeout(() => {
-                                  window.open("https://www.lazyunicorn.ai/lazy-launch", "_blank");
-                                }, 1500);
+                                handleLaunch(prev.title, prev.description);
                               }}
                               className="mt-2 flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-semibold rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer"
                             >
@@ -199,6 +202,19 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
           </div>
         )}
       </div>
+
+      {showLaunchPopup && createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center pointer-events-none">
+          <div className="bg-card border border-border rounded-xl shadow-2xl px-8 py-6 flex flex-col items-center gap-3 animate-fade-in pointer-events-auto">
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+              <Check className="w-5 h-5 text-primary" />
+            </div>
+            <p className="text-base font-semibold text-foreground text-center">Idea copied!</p>
+            <p className="text-sm text-muted-foreground text-center">Redirecting to lazyunicorn.ai to launch your idea…</p>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 };
