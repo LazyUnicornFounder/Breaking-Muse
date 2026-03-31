@@ -49,7 +49,7 @@ const Archive = () => {
 
       <main className="max-w-7xl mx-auto px-6 py-8">
         <h1 className="font-display text-2xl text-card-foreground mb-1">Idea Archive</h1>
-        <p className="text-sm text-muted-foreground mb-6">Previous days' business ideas from the news</p>
+        <p className="text-sm text-muted-foreground mb-6">Previous days' startup ideas from the news</p>
 
         {/* Search */}
         <div className="flex justify-center mb-8">
