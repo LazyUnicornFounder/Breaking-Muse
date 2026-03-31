@@ -57,6 +57,7 @@ const Index = () => {
     return ["All", ...cats];
   }, [allByCategory]);
 
+  const filteredIdeas = useMemo(() => {
     const allIdeas = Object.values(allByCategory).flat();
 
     let ideas = activeCategory !== "All"
