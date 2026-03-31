@@ -202,6 +202,19 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
           </div>
         )}
       </div>
+
+      {showLaunchPopup && createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center pointer-events-none">
+          <div className="bg-card border border-border rounded-xl shadow-2xl px-8 py-6 flex flex-col items-center gap-3 animate-fade-in pointer-events-auto">
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+              <Check className="w-5 h-5 text-primary" />
+            </div>
+            <p className="text-base font-semibold text-foreground text-center">Idea copied!</p>
+            <p className="text-sm text-muted-foreground text-center">Redirecting to lazyunicorn.ai to launch your idea…</p>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 };
