@@ -131,12 +131,12 @@ const Index = () => {
           </Link>
         </div>
         {/* Categories */}
-        <div className="relative z-10 flex gap-2 overflow-x-auto justify-center mb-3 flex-wrap">
+        <div className="relative z-10 flex gap-1 overflow-x-auto justify-center mb-3 flex-wrap">
           {availableCategories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(activeCategory === cat ? "All" : cat)}
-              className={`text-sm font-medium transition-colors whitespace-nowrap px-4 py-2 rounded-full cursor-pointer select-none ${
+              className={`text-sm font-medium transition-colors whitespace-nowrap px-3 py-1.5 rounded-full cursor-pointer select-none ${
                 activeCategory === cat
                   ? "bg-red-600 text-yellow-300"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
