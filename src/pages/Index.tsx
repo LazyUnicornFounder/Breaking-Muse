@@ -134,7 +134,7 @@ const Index = () => {
             <button
               key={cat}
               onClick={() => setActiveCategory(activeCategory === cat ? "All" : cat)}
-              className={`text-sm font-medium transition-colors whitespace-nowrap px-3 py-1.5 rounded-full cursor-pointer select-none ${
+              className={`text-xs font-medium transition-colors whitespace-nowrap px-2 py-1 rounded-full cursor-pointer select-none ${
                 activeCategory === cat
                   ? "bg-red-600 text-yellow-300"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
