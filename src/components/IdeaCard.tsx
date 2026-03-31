@@ -136,7 +136,7 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
               <div className="px-5 pb-4 pt-1 border-t border-dashed border-border">
                 <div className="flex items-center gap-1.5 mb-2">
                   <Clock className="w-3 h-3 text-muted-foreground" />
-                  <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
                     {historyLabel}
                   </span>
                 </div>
