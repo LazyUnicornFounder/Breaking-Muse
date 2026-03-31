@@ -203,6 +203,7 @@ const Index = () => {
           <p className="text-center text-muted-foreground py-12">No ideas match your search.</p>
         )}
 
+        </div>
       </main>
     </div>
   );
