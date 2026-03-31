@@ -52,9 +52,6 @@ const MainNav = () => {
           <Link to="/about" onClick={() => setMobileOpen(false)} className="text-sm font-semibold text-foreground hover:text-foreground/70 transition-colors">
             About
           </Link>
-          <a href="https://www.producthunt.com/products/breaking-muse?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-breaking-muse" target="_blank" rel="noopener noreferrer" className="shrink-0">
-            <img alt="Breaking Muse | Product Hunt" width="140" height="30" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1111765&theme=dark&t=1774937954258" />
-          </a>
         </nav>
       )}
     </header>
