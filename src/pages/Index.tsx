@@ -121,7 +121,7 @@ const Index = () => {
 
         {/* Categories */}
         <div className="relative z-10 flex gap-2 overflow-x-auto justify-center mb-3 flex-wrap">
-          {categories.map((cat) => (
+          {availableCategories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(activeCategory === cat ? "All" : cat)}
