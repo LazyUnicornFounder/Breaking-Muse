@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Newspaper, Cpu, Lightbulb, Sparkles, Rocket } from "lucide-react";
 import logo from "@/assets/logo.png";
