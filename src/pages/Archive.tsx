@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, ChevronRight, RefreshCw } from "lucide-react";
+import { ChevronDown, ChevronRight, RefreshCw, Search } from "lucide-react";
 import { fetchArchiveIdeas, type IdeaEntry } from "@/lib/ideas";
 import IdeaCard from "@/components/IdeaCard";
 import MainNav from "@/components/MainNav";
@@ -14,6 +14,7 @@ const Archive = () => {
   });
 
   const [expandedDay, setExpandedDay] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Auto-expand first day when data loads
   if (archiveDays.length > 0 && expandedDay === null) {
@@ -48,7 +49,21 @@ const Archive = () => {
 
       <main className="max-w-7xl mx-auto px-6 py-8">
         <h1 className="font-display text-2xl text-card-foreground mb-1">Idea Archive</h1>
-        <p className="text-sm text-muted-foreground mb-8">Previous days' business ideas from the news</p>
+        <p className="text-sm text-muted-foreground mb-6">Previous days' business ideas from the news</p>
+
+        {/* Search */}
+        <div className="flex justify-center mb-8">
+          <div className="relative w-full max-w-md">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search ideas in the archive..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-9 pr-4 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground"
+            />
+          </div>
+        </div>
 
         {isLoading && (
           <div className="flex justify-center py-16">
@@ -63,7 +78,17 @@ const Archive = () => {
         ) : (
           <div className="space-y-4">
             {archiveDays.map((day) => {
-              const grouped = groupByCategory(day.ideas);
+              const q = searchQuery.toLowerCase().trim();
+              const filteredIdeas = q
+                ? day.ideas.filter(idea =>
+                    idea.title.toLowerCase().includes(q) ||
+                    idea.description.toLowerCase().includes(q) ||
+                    idea.tag.toLowerCase().includes(q) ||
+                    idea.sourceEvent.toLowerCase().includes(q)
+                  )
+                : day.ideas;
+              if (q && filteredIdeas.length === 0) return null;
+              const grouped = groupByCategory(filteredIdeas);
               return (
                 <div key={day.date} className="border border-border rounded-lg overflow-hidden">
                   <button
