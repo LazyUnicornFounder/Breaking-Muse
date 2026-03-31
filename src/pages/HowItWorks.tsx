@@ -1,8 +1,9 @@
+import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Newspaper, Cpu, Lightbulb, Sparkles, Rocket } from "lucide-react";
 import logo from "@/assets/logo.png";
 
-const steps = [
+const steps: { icon: typeof Newspaper; title: string; description: ReactNode }[] = [
   {
     icon: Newspaper,
     title: "We scan the news",
@@ -24,8 +25,12 @@ const steps = [
   {
     icon: Rocket,
     title: "Launch it instantly",
-    description:
-      "Found an idea you love? Hit the \"Launch it\" button on any card. It copies the idea to your clipboard and sends you straight to LazyUnicorn.ai, where you can turn the concept into a real product — landing page, name, plan, and all — in minutes.",
+    description: (
+      <>
+        Found an idea you love? Hit the "Launch it" button on any card. It copies the idea to your clipboard and sends you straight to{" "}
+        <a href="https://www.lazyunicorn.ai/lazy-launch" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">LazyUnicorn.ai</a>, where you can turn the concept into a real product — landing page, name, plan, and all — in minutes.
+      </>
+    ),
   },
   {
     icon: Sparkles,
