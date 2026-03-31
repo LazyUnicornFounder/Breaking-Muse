@@ -116,7 +116,7 @@ const Index = () => {
         </div>
         <div className="flex justify-end">
           <a href="https://www.producthunt.com/products/breaking-muse?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-breaking-muse" target="_blank" rel="noopener noreferrer" className="shrink-0">
-            <img alt="Breaking Muse - Product Hunt" width="100" height="22" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1111765&theme=light&t=1774899974448" />
+            <img alt="Breaking Muse - Turn today's news into your next startup idea. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1111765&theme=dark&t=1774937954258" />
           </a>
         </div>
       </header>
