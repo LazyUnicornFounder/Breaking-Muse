@@ -148,7 +148,7 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
                         onClick={() => setExpandedIdea(expandedIdea === i ? null : i)}
                         className="w-full flex items-center justify-between gap-2 py-1.5 px-2 -mx-2 rounded-md hover:bg-muted/50 transition-colors text-left group/prev cursor-pointer"
                       >
-                        <p className="text-xs text-muted-foreground truncate group-hover/prev:text-foreground transition-colors">
+                        <p className={`text-xs truncate transition-colors ${expandedIdea === i ? "text-foreground font-semibold" : "text-muted-foreground group-hover/prev:text-foreground"}`}>
                           {prev.title}
                         </p>
                         <span className="text-[10px] text-muted-foreground/60 whitespace-nowrap">{historyLabel === "Previous ideas today" ? "today" : ""}</span>
