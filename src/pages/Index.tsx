@@ -104,6 +104,22 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
+      <header className="max-w-7xl mx-auto px-6 pt-4 flex justify-end gap-2">
+        <Link
+          to="/how-it-works"
+          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground border border-border rounded-lg hover:bg-muted/50 transition-colors"
+        >
+          <HelpCircle className="w-4 h-4" />
+          How it works
+        </Link>
+        <Link
+          to="/archive"
+          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground border border-border rounded-lg hover:bg-muted/50 transition-colors"
+        >
+          <Archive className="w-4 h-4" />
+          Archive
+        </Link>
+      </header>
 
       <main className="max-w-7xl mx-auto px-6 py-6">
         {/* Hero */}
@@ -195,24 +211,6 @@ const Index = () => {
         )}
 
         {/* Archive link */}
-        {!isLoading && (
-          <div className="flex justify-center mt-8 mb-4">
-            <Link
-              to="/how-it-works"
-              className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border border-border rounded-lg hover:bg-muted/50 transition-colors"
-            >
-              <HelpCircle className="w-4 h-4" />
-              How it works
-            </Link>
-            <Link
-              to="/archive"
-              className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground border border-border rounded-lg hover:bg-muted/50 transition-colors"
-            >
-              <Archive className="w-4 h-4" />
-              View previous days' ideas
-            </Link>
-          </div>
-        )}
       </main>
     </div>
   );
