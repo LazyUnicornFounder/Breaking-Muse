@@ -78,7 +78,17 @@ const Archive = () => {
         ) : (
           <div className="space-y-4">
             {archiveDays.map((day) => {
-              const grouped = groupByCategory(day.ideas);
+              const q = searchQuery.toLowerCase().trim();
+              const filteredIdeas = q
+                ? day.ideas.filter(idea =>
+                    idea.title.toLowerCase().includes(q) ||
+                    idea.description.toLowerCase().includes(q) ||
+                    idea.tag.toLowerCase().includes(q) ||
+                    idea.sourceEvent.toLowerCase().includes(q)
+                  )
+                : day.ideas;
+              if (q && filteredIdeas.length === 0) return null;
+              const grouped = groupByCategory(filteredIdeas);
               return (
                 <div key={day.date} className="border border-border rounded-lg overflow-hidden">
                   <button
