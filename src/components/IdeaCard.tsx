@@ -162,7 +162,7 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
                         }}
                       >
                         <div className="overflow-hidden">
-                          <div className="ml-2 pl-3 border-l-2 border-primary/30 py-2 mb-1">
+                          <div className="ml-2 pl-3 py-2 mb-1">
                             <p className="text-[11px] text-muted-foreground leading-relaxed mb-2">
                               {prev.description}
                             </p>
