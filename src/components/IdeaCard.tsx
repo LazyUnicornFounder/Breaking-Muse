@@ -21,7 +21,7 @@ interface IdeaCardProps {
   historyLabel?: string;
 }
 
-const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, previousIdeas = [], historyLabel = "More startup ideas from today's news" }: IdeaCardProps) => {
+const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, previousIdeas = [], historyLabel }: IdeaCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [expandedIdea, setExpandedIdea] = useState<number | null>(null);
   const [showLaunchPopup, setShowLaunchPopup] = useState(false);
