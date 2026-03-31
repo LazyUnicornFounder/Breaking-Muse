@@ -113,36 +113,40 @@ const Index = () => {
             Turn today's news into your next startup idea.
           </p>
         </div>
-        {/* Categories */}
-        <div className="relative z-10 flex gap-1 overflow-x-auto justify-center mb-3 flex-wrap">
-          {availableCategories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(activeCategory === cat ? "All" : cat)}
-              className={`text-xs font-medium transition-colors whitespace-nowrap px-2 py-1 rounded-full cursor-pointer select-none ${
-                activeCategory === cat
-                  ? "bg-red-600 text-yellow-300"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Search */}
-        <div className="flex justify-center mb-6">
-          <div className="relative w-full max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder="Search ideas..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground"
-            />
+        {/* Categories — hidden when no data loaded yet */}
+        {!isLoading && data && (
+          <div className="relative z-10 flex gap-1 overflow-x-auto justify-center mb-3 flex-wrap">
+            {availableCategories.filter(cat => cat !== "All").map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(activeCategory === cat ? "All" : cat)}
+                className={`text-xs font-medium transition-colors whitespace-nowrap px-2 py-1 rounded-full cursor-pointer select-none ${
+                  activeCategory === cat
+                    ? "bg-red-600 text-yellow-300"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
-        </div>
+        )}
+
+        {/* Search — hidden when no data loaded yet */}
+        {!isLoading && data && (
+          <div className="flex justify-center mb-6">
+            <div className="relative w-full max-w-md">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder="Search ideas..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-4 py-2 text-sm bg-card border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground"
+              />
+            </div>
+          </div>
+        )}
 
         {/* Loading state */}
         {isLoading && (
