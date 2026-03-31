@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { createPortal } from "react-dom";
-import { ArrowUpRight, Clock, Rocket, Check } from "lucide-react";
+import { ArrowUpRight, Rocket, Check } from "lucide-react";
 
 interface PrevIdea {
   title: string;
