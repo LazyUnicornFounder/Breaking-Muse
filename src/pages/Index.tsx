@@ -106,7 +106,8 @@ const Index = () => {
     <div className="min-h-screen">
       <MainNav />
 
-      <main className="max-w-7xl mx-auto px-6 py-6">
+      <main className="max-w-7xl mx-auto px-4 md:px-6 py-6">
+        <div className="border border-border rounded-2xl bg-card/30 backdrop-blur-sm p-5 md:p-8 shadow-sm">
         {/* Tagline */}
         <div className="flex justify-center mb-4">
           <p className="text-3xl md:text-5xl text-foreground tracking-tight font-semibold text-center" style={{ fontFamily: "'DM Sans', sans-serif" }}>
