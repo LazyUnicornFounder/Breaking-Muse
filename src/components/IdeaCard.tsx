@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { createPortal } from "react-dom";
-import { ArrowUpRight, Clock, Rocket, Check } from "lucide-react";
+import { ArrowUpRight, Rocket, Check } from "lucide-react";
 
 interface PrevIdea {
   title: string;
@@ -135,7 +135,6 @@ const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, prev
             <div className="overflow-hidden">
               <div className="px-5 pb-4 pt-1 border-t border-dashed border-border">
                 <div className="flex items-center gap-1.5 mb-2">
-                  <Clock className="w-3 h-3 text-muted-foreground" />
                   <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
                     {historyLabel}
                   </span>
