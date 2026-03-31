@@ -113,9 +113,9 @@ const Index = () => {
           <Link to="/archive" className="text-sm font-semibold text-foreground hover:text-foreground/70 transition-colors">
             Archive
           </Link>
-          <a href="#about" className="text-sm font-semibold text-foreground hover:text-foreground/70 transition-colors">
+          <Link to="/about" className="text-sm font-semibold text-foreground hover:text-foreground/70 transition-colors">
             About
-          </a>
+          </Link>
         </div>
         <div className="flex justify-end">
           <a href="https://www.producthunt.com/products/breaking-muse?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-breaking-muse" target="_blank" rel="noopener noreferrer" className="shrink-0">
