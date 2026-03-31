@@ -166,6 +166,16 @@ const Index = () => {
           </div>
         )}
 
+        {/* Section heading */}
+        {!isLoading && filteredIdeas.length > 0 && (
+          <div className="mb-4">
+            <h2 className="text-2xl md:text-3xl text-foreground">Today's Ideas</h2>
+            <p className="text-sm text-muted-foreground mt-1">
+              {new Date(selectedDate + "T12:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}
+            </p>
+          </div>
+        )}
+
         {/* Cards grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {filteredIdeas.map((idea, i) => {
