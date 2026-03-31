@@ -23,7 +23,20 @@ interface IdeaCardProps {
 const IdeaCard = ({ title, description, sourceEvent, sourceUrl, tag, delay, previousIdeas = [], historyLabel = "Previous ideas today" }: IdeaCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [expandedIdea, setExpandedIdea] = useState<number | null>(null);
+  const [showLaunchPopup, setShowLaunchPopup] = useState(false);
   const history = previousIdeas;
+
+  const handleLaunch = useCallback((ideaTitle: string, ideaDesc: string) => {
+    const text = `${ideaTitle}: ${ideaDesc}`;
+    navigator.clipboard.writeText(text);
+    setShowLaunchPopup(true);
+    setTimeout(() => {
+      window.open("https://www.lazyunicorn.ai/lazy-launch", "_blank");
+    }, 2000);
+    setTimeout(() => {
+      setShowLaunchPopup(false);
+    }, 3000);
+  }, []);
 
   return (
     <div
