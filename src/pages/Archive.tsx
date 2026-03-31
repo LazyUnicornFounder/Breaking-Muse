@@ -44,23 +44,11 @@ const Archive = () => {
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center gap-4">
-          <Link to="/" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-            Back to today
-          </Link>
-        </div>
-      </header>
+      <MainNav />
 
       <main className="max-w-7xl mx-auto px-6 py-8">
-        <div className="flex items-center gap-3 mb-8">
-          <img src={logo} alt="Breaking Muse" className="h-16 w-auto" />
-          <div>
-            <h1 className="font-display text-2xl text-card-foreground">Idea Archive</h1>
-            <p className="text-sm text-muted-foreground">Previous days' business ideas from the news</p>
-          </div>
-        </div>
+        <h1 className="font-display text-2xl text-card-foreground mb-1">Idea Archive</h1>
+        <p className="text-sm text-muted-foreground mb-8">Previous days' business ideas from the news</p>
 
         {isLoading && (
           <div className="flex justify-center py-16">
