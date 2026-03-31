@@ -104,15 +104,17 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
-      <header className="max-w-7xl mx-auto px-6 pt-4 flex items-center justify-between">
+      <header className="max-w-7xl mx-auto px-6 pt-4 grid grid-cols-3 items-center">
         <img src={logo} alt="Breaking Muse" className="h-20 md:h-24 w-auto drop-shadow-lg" />
-        <div className="flex items-center gap-4">
-          <Link to="/how-it-works" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+        <div className="flex items-center justify-center gap-6">
+          <Link to="/how-it-works" className="text-sm font-semibold text-foreground hover:text-foreground/70 transition-colors">
             How it works
           </Link>
-          <Link to="/archive" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+          <Link to="/archive" className="text-sm font-semibold text-foreground hover:text-foreground/70 transition-colors">
             Archive
           </Link>
+        </div>
+        <div className="flex justify-end">
           <a href="https://www.producthunt.com/products/breaking-muse?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-breaking-muse" target="_blank" rel="noopener noreferrer" className="shrink-0">
             <img alt="Breaking Muse - Product Hunt" width="100" height="22" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1111765&theme=light&t=1774899974448" />
           </a>
