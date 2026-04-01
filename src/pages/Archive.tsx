@@ -133,7 +133,7 @@ const Archive = () => {
                     </div>
                   </button>
 
-                  {expandedDay === day.date && (
+                  {expandedDays.has(day.date) && (
                     <div className="border-t border-border px-5 py-4">
                       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                         {grouped.map(({ featured, others }, i) => (
