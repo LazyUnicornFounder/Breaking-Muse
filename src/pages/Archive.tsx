@@ -13,13 +13,24 @@ const Archive = () => {
     staleTime: 5 * 60 * 1000,
   });
 
-  const [expandedDay, setExpandedDay] = useState<string | null>(null);
+  const [expandedDays, setExpandedDays] = useState<Set<string>>(new Set());
+  const [initialized, setInitialized] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Auto-expand first day when data loads
-  if (archiveDays.length > 0 && expandedDay === null) {
-    setExpandedDay(archiveDays[0].date);
+  // Auto-expand first day when data loads (once)
+  if (archiveDays.length > 0 && !initialized) {
+    setExpandedDays(new Set([archiveDays[0].date]));
+    setInitialized(true);
   }
+
+  const toggleDay = (date: string) => {
+    setExpandedDays((prev) => {
+      const next = new Set(prev);
+      if (next.has(date)) next.delete(date);
+      else next.add(date);
+      return next;
+    });
+  };
 
   const formatDate = (dateStr: string) => {
     const d = new Date(dateStr + "T00:00:00");
@@ -106,11 +117,11 @@ const Archive = () => {
               return (
                 <div key={day.date} className="border border-border rounded-lg overflow-hidden">
                   <button
-                    onClick={() => setExpandedDay(expandedDay === day.date ? null : day.date)}
+                    onClick={() => toggleDay(day.date)}
                     className="w-full flex items-center justify-between px-5 py-4 bg-card hover:bg-muted/30 transition-colors text-left"
                   >
                     <div className="flex items-center gap-3">
-                      {expandedDay === day.date ? (
+                      {expandedDays.has(day.date) ? (
                         <ChevronDown className="w-4 h-4 text-muted-foreground" />
                       ) : (
                         <ChevronRight className="w-4 h-4 text-muted-foreground" />
@@ -122,7 +133,7 @@ const Archive = () => {
                     </div>
                   </button>
 
-                  {expandedDay === day.date && (
+                  {expandedDays.has(day.date) && (
                     <div className="border-t border-border px-5 py-4">
                       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                         {grouped.map(({ featured, others }, i) => (
