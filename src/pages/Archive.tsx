@@ -34,8 +34,22 @@ const Archive = () => {
       byTag[idea.tag].push(idea);
     }
 
+    const CATEGORY_ORDER = [
+      "Architecture", "Art", "Boxing", "Cars", "Coffee", "Construction",
+      "Creator", "Crypto", "Culture", "Design", "Education", "Fashion", "Film",
+      "Food", "Gaming", "Health", "Humanitarian", "Law", "Living", "Money",
+      "Music", "Outdoors", "Parenting", "Pets", "Politics", "Real Estate",
+      "Science", "Space", "Sports", "Tech", "Travel", "VC", "Weather",
+    ];
+
     const result: { featured: IdeaEntry; others: IdeaEntry[] }[] = [];
-    for (const [, tagIdeas] of Object.entries(byTag)) {
+    const sortedTags = Object.keys(byTag).sort((a, b) => {
+      const ai = CATEGORY_ORDER.indexOf(a);
+      const bi = CATEGORY_ORDER.indexOf(b);
+      return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+    });
+    for (const tag of sortedTags) {
+      const tagIdeas = byTag[tag];
       const feat = tagIdeas.find((i) => i.isFeatured) || tagIdeas[0];
       const others = tagIdeas.filter((i) => i !== feat);
       result.push({ featured: feat, others });
