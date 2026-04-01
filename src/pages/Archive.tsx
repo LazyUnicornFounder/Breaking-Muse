@@ -13,13 +13,24 @@ const Archive = () => {
     staleTime: 5 * 60 * 1000,
   });
 
-  const [expandedDay, setExpandedDay] = useState<string | null>(null);
+  const [expandedDays, setExpandedDays] = useState<Set<string>>(new Set());
+  const [initialized, setInitialized] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Auto-expand first day when data loads
-  if (archiveDays.length > 0 && expandedDay === null) {
-    setExpandedDay(archiveDays[0].date);
+  // Auto-expand first day when data loads (once)
+  if (archiveDays.length > 0 && !initialized) {
+    setExpandedDays(new Set([archiveDays[0].date]));
+    setInitialized(true);
   }
+
+  const toggleDay = (date: string) => {
+    setExpandedDays((prev) => {
+      const next = new Set(prev);
+      if (next.has(date)) next.delete(date);
+      else next.add(date);
+      return next;
+    });
+  };
 
   const formatDate = (dateStr: string) => {
     const d = new Date(dateStr + "T00:00:00");
