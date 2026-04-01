@@ -117,7 +117,7 @@ const Archive = () => {
               return (
                 <div key={day.date} className="border border-border rounded-lg overflow-hidden">
                   <button
-                    onClick={() => setExpandedDay(expandedDay === day.date ? null : day.date)}
+                    onClick={() => toggleDay(day.date)}
                     className="w-full flex items-center justify-between px-5 py-4 bg-card hover:bg-muted/30 transition-colors text-left"
                   >
                     <div className="flex items-center gap-3">
