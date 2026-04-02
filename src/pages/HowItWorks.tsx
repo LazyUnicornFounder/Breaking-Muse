@@ -8,7 +8,7 @@ const steps: { icon: typeof Newspaper; title: string; description: ReactNode }[]
     icon: Newspaper,
     title: "We scan the news",
     description:
-      "Every morning, Breaking Muse crawls dozens of trusted news sources across 30+ categories — from tech and finance to sports, culture, and science. We pull in the freshest stories, press releases, and trending topics so you don't have to.",
+      "Every morning, Breaking Muse crawls dozens of news sources across multiple categories — from tech and finance to sports, culture, and science. We pull in the freshest stories, press releases, and trending topics so you don't have to.",
   },
   {
     icon: Cpu,
