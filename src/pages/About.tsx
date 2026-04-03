@@ -11,15 +11,11 @@ const About = () => {
           The best startups ride waves of change. A new regulation, a viral trend, a technological breakthrough — these events create windows of opportunity that close fast. Breaking Muse helps you spot those windows the moment they open, so you can move before everyone else catches on.
         </p>
         <p className="text-base text-muted-foreground leading-relaxed">
-          Breaking Muse is associated with{" "}
-          <a href="https://lazyunicorn.ai" target="_blank" rel="noopener noreferrer" className="text-foreground underline hover:text-foreground/70 transition-colors">
-            Lazy Unicorn
+          Breaking Muse is part of{" "}
+          <a href="https://lazyfactoryventures.com" target="_blank" rel="noopener noreferrer" className="text-foreground underline hover:text-foreground/70 transition-colors">
+            Lazy Factory Ventures
           </a>
-          , which helps you launch your autonomous business on{" "}
-          <a href="https://lovable.dev" target="_blank" rel="noopener noreferrer" className="text-foreground underline hover:text-foreground/70 transition-colors">
-            Lovable
-          </a>
-          . Click the "Launch it" button for your favorite idea, and you'll be taken to Lazy Unicorn to start turning your idea into a business that runs and grows itself.
+          .
         </p>
       </main>
     </div>
