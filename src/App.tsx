@@ -8,6 +8,7 @@ import Archive from "./pages/Archive.tsx";
 import HowItWorks from "./pages/HowItWorks.tsx";
 import About from "./pages/About.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import Explore from "./pages/Explore.tsx";
 // import MuseReddit from "./pages/MuseReddit.tsx";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/archive" element={<Archive />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/about" element={<About />} />
+          <Route path="/explore" element={<Explore />} />
           {/* <Route path="/muse-reddit" element={<MuseReddit />} /> */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
