@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Search, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import MainNav from "@/components/MainNav";
+import OpenSourceBanner from "@/components/OpenSourceBanner";
 
 const categories = [
   "All", "Architecture", "Art", "Boxing", "Cars", "Coffee", "Construction",
@@ -205,6 +206,7 @@ const Index = () => {
 
         </div>
       </main>
+          <OpenSourceBanner />
     </div>
   );
 };
