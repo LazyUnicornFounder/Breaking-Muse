@@ -8,6 +8,7 @@ import { Search, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import MainNav from "@/components/MainNav";
 import OpenSourceBanner from "@/components/OpenSourceBanner";
+import PortfolioFooter from "@/components/PortfolioFooter";
 
 const categories = [
   "All", "Architecture", "Art", "Boxing", "Cars", "Coffee", "Construction",
@@ -207,6 +208,7 @@ const Index = () => {
         </div>
       </main>
           <OpenSourceBanner />
+          <PortfolioFooter />
     </div>
   );
 };
